@@ -1,0 +1,20 @@
+const express = require('express');
+const axios = require('axios');
+const app = express();
+const port = process.env.PORT || 3000;
+
+const apiKey = '3c4Av6qhPUuwicCxIqsBlHdeFAGH4aMpnwhMmoS0M3SzR8juZXlKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNkluTnBaeTB5TURJeExUQTNMVEV6VkRFNE9qVXhPalE1V2lJc0luUjVjQ0k2SWtwWFZDSXNJbU4wZVNJNklrcFhWQ0o5LmV5SmlZWE5sUVhCcFMyVjVJam9pTTJNMFFYWTJjV2hRVlhWM2FXTkRlRWx4YzBKc1NHUmxSa0ZIU0RSaFRYQnVkMmhOYlc5VE1FMHpVM3BTT0dwMUlpd2liM2R1WlhKSlpDSTZJamN4TURReE1UWTFOVFFpTENKaGRXUWlPaUpTYjJKc2IzaEpiblJsY201aGJDSXNJbWx6Y3lJNklrTnNiM1ZrUVhWMGFHVnVkR2xqWVhScGIyNVRaWEoyYVdObElpd2laWGh3SWpveE56STBPREU1TWpjNExDSnBZWFFpT2pFM01qUTRNVFUyTnpnc0ltNWlaaUk2TVRjeU5EZ3hOVFkzT0gwLkwzMEh3TnBMN3RaMU5tMXlYNThCQkVkZHozakd5c3lfTTR1UEVaR0V2RFJqZEJRclNxSVREc1pqUkhtZGxnaDF0V1g3WTNacnUwTjNkVDRyc3lPckdncDJ3Y2JOajkzUFhDR2NXQngzUWxhdXN3OEUwdkhJWmpCQ1FiUUVFXzJRSk5xMTV3Q1VBQ3JobnJvVnRLZjlzQU9Fa2h0N3BLNUZiWU1oVDNmQWRPbUsyU0RwVDFFeFhlSjJQZGp1YnptN1RsN2JxWTk5ZW85MG85YzdXa2xMcDl6Z3ItTWlDUlBqZWxXdm5FdmtNRnlTaEhEZXY2UzZnYktyUGtxNGlVdWlOOUNtcFJFMC1US0psMVZrNnAtQVNlQUlfVHl0NHFrOEhyU3RUR2ZpYTRNTHJQS01FbGgyVDIzZkJ1WHRWY1FwUU5DVFMyUmtBOWFHM3AxXzB5UmJYUQ=='; // Replace with your actual API key
+
+app.get('/toolbox/search', async (req, res) => {
+    const query = req.query.query;
+    try {
+        const response = await axios.get(`https://api.robloxlabs.com/toolbox/search?query=${encodeURIComponent(query)}&apiKey=${apiKey}`);
+        res.json(response.data);
+    } catch (error) {
+        res.status(500).send('Error fetching tool data');
+    }
+});
+
+app.listen(port, () => {
+    console.log(`Proxy server running on port ${port}`);
+});
