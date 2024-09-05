@@ -1,1 +1,119 @@
-local v0=Instance.new("ScreenGui");local v1=Instance.new("Frame");local v2=Instance.new("TextLabel");local v3=Instance.new("TextButton");local v4=Instance.new("TextButton");local v5=Instance.new("TextButton");v0.Parent=game.Players.LocalPlayer:WaitForChild("PlayerGui");v0.Name="AntiModGUI";v1.Parent=v0;v1.BackgroundColor3=Color3.fromRGB(669 -(555 + 64) ,981 -(857 + 74) ,618 -(367 + 201) );v1.Position=UDim2.new(0.5 -0 , -(94 + 6),0.5, -(1002 -(214 + 713)));v1.Size=UDim2.new(0,200,0 + 0 ,1624 -(1329 + 145) );v1.Visible=false;v2.Parent=v1;v2.BackgroundColor3=Color3.fromRGB(6 + 29 ,912 -(282 + 595) ,1672 -(1523 + 114) );v2.Size=UDim2.new(1 + 0 ,0 -0 ,1065.3 -(68 + 997) ,0 + 0 );v2.Text="Anti Mods";v2.TextColor3=Color3.new(1271 -(226 + 1044) ,4 -3 ,118 -(32 + 85) );v2.TextSize=712 -(198 + 490) ;v3.Parent=v1;v3.BackgroundColor3=Color3.fromRGB(309 -239 ,167 -97 ,69 + 1 );v3.Position=UDim2.new(0.1 + 0 ,957 -(892 + 65) ,0.4 -0 ,0 -0 );v3.Size=UDim2.new(0.8 -0 ,350 -(87 + 263) ,180.2 -(67 + 113) ,0 + 0 );v3.Text="Enable / Disable";v3.TextColor3=Color3.new(2 -1 ,1,3 -2 );v3.TextSize=14 + 4 ;v4.Parent=v1;v4.BackgroundColor3=Color3.fromRGB(278 -208 ,1022 -(802 + 150) ,768 -(208 + 490) );v4.Position=UDim2.new(0.1 -0 ,0 -0 ,836.7 -(660 + 176) ,0 + 0 );v4.Size=UDim2.new(997.8 -(915 + 82) ,0 -0 ,0.2 + 0 ,0 -0 );v4.Text="Click me to Rejoin";v4.TextColor3=Color3.new(203 -(14 + 188) ,1188 -(1069 + 118) ,2 -1 );v4.TextSize=18;v5.Parent=v0;v5.BackgroundColor3=Color3.fromRGB(76 -41 ,34 + 1 ,7 + 28 );v5.Position=UDim2.new(0.5 -0 , -(140 -90),0.9 + 0 , -(816 -(368 + 423)));v5.Size=UDim2.new(0 -0 ,118 -(10 + 8) ,0 -0 ,492 -(416 + 26) );v5.Text="Open Menu";v5.TextColor3=Color3.new(1,3 -2 ,2 -1 );v5.TextSize=8 + 10 ;local v40=false;function ToggleGUI() local v43=0 + 0 ;while true do if (v43==(1 -0)) then if v40 then local v55=438 -(145 + 293) ;while true do if (v55==(430 -(44 + 386))) then v1.BackgroundColor3=Color3.fromRGB(1486 -(998 + 488) ,82 + 173 ,0 -0 );v3.Text="Disable";v55=2 -1 ;end if (v55==(286 -(134 + 151))) then v5.Text="Close Menu";break;end end else v1.BackgroundColor3=Color3.fromRGB(255,0 + 0 ,772 -(201 + 571) );v3.Text="Enable";v5.Text="Open Menu";end break;end if (v43==(1138 -(116 + 1022))) then v40= not v40;v1.Visible=v40;v43=4 -3 ;end end end game:GetService("UserInputService").InputBegan:Connect(function(v44) if (v44.KeyCode==Enum.KeyCode.F) then ToggleGUI();end end);v5.MouseButton1Click:Connect(ToggleGUI);v4.MouseButton1Click:Connect(function() local v45=game.Players.LocalPlayer;if v45 then v45:Kick("Rejoining due to detected mod.");wait(3 + 2 );game:GetService("TeleportService"):Teleport(game.PlaceId,v45);end end);local v41={163721789,54785183 -39357466 ,201455102 -(814 + 45) ,823240 -(187 + 54) ,63795159 -(162 + 618) ,6098676 + 11161554 ,28358373 -(261 + 624) ,93102686 -(1020 + 60) ,8196633 -(630 + 793) ,89474551 -(451 + 549) ,6662619 + 10254650 ,85991326 -(760 + 987) ,1553952610 -(1789 + 124) ,163912738 + 312625155 ,154631595 + 995985 ,254785 + 30908671 ,7201884 -(87 + 968) ,50470850 -24753780 ,182772321 + 18681922 ,37333592 -21905875 ,63794669 -(60 + 230) ,16140795 -(1703 + 114) ,60661600 -(569 + 242) ,49719728 -32459498 ,922925 + 15216053 ,2927966957 -1766555863 ,25059292 -15933669 ,11320283 -(87 + 1043) ,34759281 -(10 + 438) ,738622204 -544512454 ,29382392 + 6234167 ,1022970593 + 234300545 ,28887771 -(1869 + 61) ,82974521 -59415691 ,2650430 + 23066640 };local function v42(v46) v46:Kick("Detected mod");end for v47,v48 in pairs(game.Players:GetChildren()) do for v50,v51 in pairs(v41) do if (v48.UserId==v51) then v42(v48);break;end end end game.Players.PlayerAdded:Connect(function(v49) for v52,v53 in pairs(v41) do if (v49.UserId==v53) then v42(v49);break;end end end);
+--[[
+    Game Security System - Anti-Cheat Module
+    This script handles enabling and disabling anti-cheat features
+    and provides GUI elements for user interaction.
+]]
+
+-- ScreenGui setup
+local GameUI = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local Header = Instance.new("TextLabel")
+local ToggleButton = Instance.new("TextButton")
+local RejoinButton = Instance.new("TextButton")
+local MobileToggleButton = Instance.new("TextButton")
+
+GameUI.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+GameUI.Name = "GameSecurityUI"
+
+MainFrame.Parent = GameUI
+MainFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+MainFrame.Position = UDim2.new(0.5, -100, 0.5, -75)
+MainFrame.Size = UDim2.new(0, 200, 0, 150)
+MainFrame.BorderSizePixel = 0
+MainFrame.BackgroundTransparency = 0.2
+
+Header.Parent = MainFrame
+Header.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+Header.Size = UDim2.new(1, 0, 0.3, 0)
+Header.Text = "Anti-Cheat System"
+Header.TextColor3 = Color3.new(1, 1, 1)
+Header.TextSize = 24
+Header.Font = Enum.Font.SourceSansBold
+
+ToggleButton.Parent = MainFrame
+ToggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+ToggleButton.Position = UDim2.new(0.1, 0, 0.4, 0)
+ToggleButton.Size = UDim2.new(0.8, 0, 0.2, 0)
+ToggleButton.Text = "Enable"
+ToggleButton.TextColor3 = Color3.new(1, 1, 1)
+ToggleButton.TextSize = 18
+ToggleButton.Font = Enum.Font.SourceSans
+
+RejoinButton.Parent = MainFrame
+RejoinButton.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+RejoinButton.Position = UDim2.new(0.1, 0, 0.7, 0)
+RejoinButton.Size = UDim2.new(0.8, 0, 0.2, 0)
+RejoinButton.Text = "Click me to Rejoin"
+RejoinButton.TextColor3 = Color3.new(1, 1, 1)
+RejoinButton.TextSize = 18
+RejoinButton.Font = Enum.Font.SourceSans
+
+MobileToggleButton.Parent = GameUI
+MobileToggleButton.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+MobileToggleButton.Position = UDim2.new(0.5, -50, 0.9, -25)
+MobileToggleButton.Size = UDim2.new(0, 100, 0, 50)
+MobileToggleButton.Text = "Open Menu"
+MobileToggleButton.TextColor3 = Color3.new(1, 1, 1)
+MobileToggleButton.TextSize = 18
+MobileToggleButton.Font = Enum.Font.SourceSans
+
+local isAntiCheatActive = false
+local monitoringConnection
+local blacklistedUserIds = {
+    163721789, 15427717, 201454243, 822999, 63794379, 17260230, 28357488,
+    93101606, 8195210, 89473551, 16917269, 85989579, 1553950697, 476537893,
+    155627580, 31163456, 7200829, 25717070, 201454243, 15427717, 63794379,
+    16138978, 60660789, 17260230, 16138978, 1161411094, 9125623, 11319153,
+    34758833, 194109750, 35616559, 1257271138, 28885841, 23558830, 25717070
+}
+
+local function isUserBlacklisted(userId)
+    for _, id in ipairs(blacklistedUserIds) do
+        if id == userId then
+            return true
+        end
+    end
+    return false
+end
+
+local function toggleAntiCheat()
+    isAntiCheatActive = not isAntiCheatActive
+    MainFrame.BackgroundColor3 = isAntiCheatActive and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
+    ToggleButton.Text = isAntiCheatActive and "Disable" or "Enable"
+    ToggleButton.BackgroundColor3 = isAntiCheatActive and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
+    MobileToggleButton.Text = isAntiCheatActive and "Close Menu" or "Open Menu"
+
+    if isAntiCheatActive then
+        monitoringConnection = game.Players.PlayerAdded:Connect(function(player)
+            if isUserBlacklisted(player.UserId) then
+                player:Kick("Detected mod")
+            end
+        end)
+        for _, player in ipairs(game.Players:GetPlayers()) do
+            if isUserBlacklisted(player.UserId) then
+                player:Kick("Detected mod")
+            end
+        end
+    else
+        if monitoringConnection then
+            monitoringConnection:Disconnect()
+        end
+    end
+end
+
+game:GetService("UserInputService").InputBegan:Connect(function(input)
+    if input.KeyCode == Enum.KeyCode.F then
+        toggleAntiCheat()
+    end
+end)
+
+MobileToggleButton.MouseButton1Click:Connect(toggleAntiCheat)
+
+RejoinButton.MouseButton1Click:Connect(function()
+    local player = game.Players.LocalPlayer
+    if player then
+        player:Kick("Rejoining due to detected mod.")
+        wait(5)
+        game:GetService("TeleportService"):Teleport(game.PlaceId, player)
+    end
+end)
