@@ -1,4 +1,4 @@
---[[
+--[[ 
     Game Security System - Anti-Cheat Module
     This script handles enabling and disabling anti-cheat features
     and provides GUI elements for user interaction.
@@ -19,6 +19,7 @@ MainFrame.Parent = GameUI
 MainFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 MainFrame.Position = UDim2.new(0.5, -100, 0.5, -75)
 MainFrame.Size = UDim2.new(0, 200, 0, 150)
+MainFrame.Visible = true
 MainFrame.BorderSizePixel = 0
 MainFrame.BackgroundTransparency = 0.2
 
