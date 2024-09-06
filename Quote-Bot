@@ -1,0 +1,102 @@
+repeat task.wait() until game:IsLoaded()
+
+if not getgenv().executedQuoteBot then
+    getgenv().executedQuoteBot = true
+else
+    return
+end
+
+local httprequest = (syn and syn.request) or http and http.request or http_request or (fluxus and fluxus.request) or request
+
+local debounce = false
+getgenv().stopped = false
+
+-- Create GUI
+local ScreenGui = Instance.new("ScreenGui")
+local FetchButton = Instance.new("TextButton")
+local StopButton = Instance.new("TextButton")
+local InstructionsLabel = Instance.new("TextLabel")
+
+ScreenGui.Parent = game.CoreGui
+
+FetchButton.Parent = ScreenGui
+FetchButton.BackgroundColor3 = Color3.new(0, 0.5, 1)
+FetchButton.Position = UDim2.new(0, 50, 0, 50)
+FetchButton.Size = UDim2.new(0, 100, 0, 30)
+FetchButton.Text = "Fetch Quote"
+
+StopButton.Parent = ScreenGui
+StopButton.BackgroundColor3 = Color3.new(1, 0, 0)
+StopButton.Position = UDim2.new(0, 50, 0, 90)
+StopButton.Size = UDim2.new(0, 100, 0, 30)
+StopButton.Text = "Stop Bot"
+
+InstructionsLabel.Parent = ScreenGui
+InstructionsLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+InstructionsLabel.Position = UDim2.new(0, 50, 0, 130)
+InstructionsLabel.Size = UDim2.new(0, 400, 0, 50)
+InstructionsLabel.Text = 'Type ">quote" in the chat to request a quote.'
+InstructionsLabel.TextWrapped = true
+InstructionsLabel.TextSize = 18
+
+local function sendMessage(text)
+    print("Sending message: " .. text)
+    game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(text, "All")
+end
+
+local function fetchQuote()
+    print("Fetching quote...")
+    local response
+    local url = "https://api.api-ninjas.com/v1/quotes?category=happiness"  -- You can change the category as needed
+    local apiKey = "xx444m7FygNOHoZCGuZ5PQ==HaSK9xZrdNZ7N9Qr"  
+    
+    local suc, er = pcall(function()
+        response = httprequest({
+            Url = url,
+            Method = "GET",
+            Headers = {
+                ["X-Api-Key"] = apiKey
+            }
+        })
+    end)
+    
+    if not suc then
+        sendMessage('Unexpected error, please retry: ' .. tostring(er))
+        return
+    end
+    
+    if not response or not response.Body then
+        sendMessage('Failed to get a response from the API.')
+        return
+    end
+    
+    local quoteData = game:GetService('HttpService'):JSONDecode(response.Body)
+    if quoteData and quoteData[1] and quoteData[1].quote and quoteData[1].author then
+        sendMessage('"' .. quoteData[1].quote .. '" - ' .. quoteData[1].author)
+    else
+        sendMessage('Failed to fetch quote. Please try again.')
+    end
+end
+
+local function startQuoteBot()
+    print("Starting Quote Bot...")
+    game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents.OnMessageDoneFiltering.OnClientEvent:Connect(function(msgdata)
+        if debounce then return end
+        if string.lower(msgdata.Message) == '>quote' then
+            debounce = true
+            fetchQuote()
+            task.wait(5)
+            debounce = false
+        end
+    end)
+end
+
+FetchButton.MouseButton1Click:Connect(function()
+    sendMessage('Quote Bot is now active! Type ">quote" in the chat to request a quote.')
+    startQuoteBot()
+end)
+
+StopButton.MouseButton1Click:Connect(function()
+    getgenv().stopped = true
+    sendMessage('Quote Bot stopped.')
+end)
