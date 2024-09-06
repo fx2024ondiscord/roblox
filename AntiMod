@@ -1,74 +1,64 @@
-local GameUI = Instance.new("ScreenGui")
-local MainFrame = Instance.new("Frame")
-local StatusLabel = Instance.new("TextLabel")
-local MobileToggleButton = Instance.new("TextButton")
+-- Anti-Mod Script with Simple GUI
 
-GameUI.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-GameUI.Name = "GameSecurityUI"
+-- Create the GUI
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local MessageLabel = Instance.new("TextLabel")
 
-MainFrame.Parent = GameUI
-MainFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-MainFrame.Position = UDim2.new(0.5, -100, 0.5, -75)
-MainFrame.Size = UDim2.new(0, 200, 0, 100)
-MainFrame.Visible = true
-MainFrame.BorderSizePixel = 0
-MainFrame.BackgroundTransparency = 0.2
+-- Set up the GUI
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.Name = "AntiModGUI"
 
-StatusLabel.Parent = MainFrame
-StatusLabel.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-StatusLabel.Size = UDim2.new(1, 0, 1, 0)
-StatusLabel.Text = "This script is running"
-StatusLabel.TextColor3 = Color3.new(1, 1, 1)
-StatusLabel.TextSize = 18
-StatusLabel.Font = Enum.Font.SourceSansBold
-StatusLabel.TextStrokeTransparency = 0.8
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Frame.Size = UDim2.new(1, 0, 1, 0)
+Frame.BackgroundTransparency = 0.5
 
-MobileToggleButton.Parent = GameUI
-MobileToggleButton.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-MobileToggleButton.Position = UDim2.new(0.5, -50, 0.9, -25)
-MobileToggleButton.Size = UDim2.new(0, 100, 0, 50)
-MobileToggleButton.Text = "Open Menu"
-MobileToggleButton.TextColor3 = Color3.new(1, 1, 1)
-MobileToggleButton.TextSize = 18
-MobileToggleButton.Font = Enum.Font.SourceSans
+MessageLabel.Parent = Frame
+MessageLabel.Size = UDim2.new(1, 0, 1, 0)
+MessageLabel.Text = "Anti Mod Running"
+MessageLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+MessageLabel.TextScaled = true
+MessageLabel.BackgroundTransparency = 1
 
-local isAntiCheatActive = false
-local antiCheatScript
+-- Anti-Mod Check
+local blacklistedUserIds = {
+    163721789, 15427717, 201454243, 822999, 63794379, 17260230, 28357488,
+    93101606, 8195210, 89473551, 16917269, 85989579, 1553950697, 476537893,
+    155627580, 31163456, 7200829, 25717070, 201454243, 15427717, 63794379,
+    16138978, 60660789, 17260230, 16138978, 1161411094, 9125623, 11319153,
+    34758833, 194109750, 35616559, 1257271138, 28885841, 23558830, 25717070
+}
 
-local function loadAntiCheatScript()
-    if antiCheatScript then
-        pcall(function()
-            antiCheatScript:Disconnect()
-        end)
-    end
-    antiCheatScript = loadstring(game:GetService("HttpService"):GetAsync("https://pastebin.com/raw/QVXGpvNU"))()
-end
-
-local function toggleAntiCheat()
-    isAntiCheatActive = not isAntiCheatActive
-    StatusLabel.Text = isAntiCheatActive and "This script is running" or "This script is stopped"
-    StatusLabel.BackgroundColor3 = isAntiCheatActive and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
-
-    if isAntiCheatActive then
-        loadAntiCheatScript()
-    else
-        if antiCheatScript then
-            pcall(function()
-                antiCheatScript:Disconnect()
-            end)
+local function isUserBlacklisted(userId)
+    for _, id in ipairs(blacklistedUserIds) do
+        if id == userId then
+            return true
         end
     end
+    return false
 end
 
-local function toggleMainFrame()
-    MainFrame.Visible = not MainFrame.Visible
-    MobileToggleButton.Text = MainFrame.Visible and "Close Menu" or "Open Menu"
-end
-
-MobileToggleButton.MouseButton1Click:Connect(toggleMainFrame)
-
-game:GetService("UserInputService").InputBegan:Connect(function(input)
-    if input.KeyCode == Enum.KeyCode.F then
-        toggleAntiCheat()
+for _, player in ipairs(game.Players:GetPlayers()) do
+    if isUserBlacklisted(player.UserId) then
+        player:Kick("A mod has been detected in-game.")
     end
+end
+
+game.Players.PlayerAdded:Connect(function(player)
+    if isUserBlacklisted(player.UserId) then
+        player:Kick("A mod has been detected in-game.")
+    end
+end)
+
+-- Animation for the GUI
+local tweenService = game:GetService("TweenService")
+local tweenInfo = TweenInfo.new(2, Enum.EasingStyle.Linear, Enum.EasingDirection.In)
+local goal = {BackgroundTransparency = 1}
+
+local tween = tweenService:Create(Frame, tweenInfo, goal)
+tween:Play()
+
+tween.Completed:Connect(function()
+    ScreenGui:Destroy()
 end)
