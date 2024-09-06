@@ -1,13 +1,6 @@
---[[ 
-    Game Security System - Anti-Cheat Module
-    This script handles enabling and disabling anti-cheat features
-    and provides GUI elements for user interaction.
-]]
-
--- ScreenGui setup
 local GameUI = Instance.new("ScreenGui")
 local MainFrame = Instance.new("Frame")
-local Header = Instance.new("TextLabel")
+local StatusLabel = Instance.new("TextLabel")
 local ToggleButton = Instance.new("TextButton")
 local RejoinButton = Instance.new("TextButton")
 local MobileToggleButton = Instance.new("TextButton")
@@ -23,13 +16,14 @@ MainFrame.Visible = true
 MainFrame.BorderSizePixel = 0
 MainFrame.BackgroundTransparency = 0.2
 
-Header.Parent = MainFrame
-Header.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-Header.Size = UDim2.new(1, 0, 0.3, 0)
-Header.Text = "Anti-Cheat System"
-Header.TextColor3 = Color3.new(1, 1, 1)
-Header.TextSize = 24
-Header.Font = Enum.Font.SourceSansBold
+StatusLabel.Parent = MainFrame
+StatusLabel.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+StatusLabel.Size = UDim2.new(1, 0, 0.3, 0)
+StatusLabel.Text = "Anti-Cheat Disabled"
+StatusLabel.TextColor3 = Color3.new(1, 1, 1)
+StatusLabel.TextSize = 18
+StatusLabel.Font = Enum.Font.SourceSansBold
+StatusLabel.TextStrokeTransparency = 0.8
 
 ToggleButton.Parent = MainFrame
 ToggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
@@ -59,7 +53,6 @@ MobileToggleButton.TextSize = 18
 MobileToggleButton.Font = Enum.Font.SourceSans
 
 local isAntiCheatActive = false
-local monitoringConnection
 local blacklistedUserIds = {
     163721789, 15427717, 201454243, 822999, 63794379, 17260230, 28357488,
     93101606, 8195210, 89473551, 16917269, 85989579, 1553950697, 476537893,
@@ -79,13 +72,13 @@ end
 
 local function toggleAntiCheat()
     isAntiCheatActive = not isAntiCheatActive
-    MainFrame.BackgroundColor3 = isAntiCheatActive and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
+    StatusLabel.Text = isAntiCheatActive and "Anti-Cheat Enabled" or "Anti-Cheat Disabled"
+    StatusLabel.BackgroundColor3 = isAntiCheatActive and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
     ToggleButton.Text = isAntiCheatActive and "Disable" or "Enable"
     ToggleButton.BackgroundColor3 = isAntiCheatActive and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
-    MobileToggleButton.Text = isAntiCheatActive and "Close Menu" or "Open Menu"
 
     if isAntiCheatActive then
-        monitoringConnection = game.Players.PlayerAdded:Connect(function(player)
+        game.Players.PlayerAdded:Connect(function(player)
             if isUserBlacklisted(player.UserId) then
                 player:Kick("Detected mod")
             end
@@ -96,25 +89,33 @@ local function toggleAntiCheat()
             end
         end
     else
-        if monitoringConnection then
-            monitoringConnection:Disconnect()
+        for _, connection in ipairs(game:GetConnections()) do
+            if connection.Connected then
+                connection:Disconnect()
+            end
         end
     end
 end
 
-game:GetService("UserInputService").InputBegan:Connect(function(input)
-    if input.KeyCode == Enum.KeyCode.F then
-        toggleAntiCheat()
-    end
-end)
+local function toggleMainFrame()
+    MainFrame.Visible = not MainFrame.Visible
+    MobileToggleButton.Text = MainFrame.Visible and "Close Menu" or "Open Menu"
+end
 
-MobileToggleButton.MouseButton1Click:Connect(toggleAntiCheat)
-
+ToggleButton.MouseButton1Click:Connect(toggleAntiCheat)
 RejoinButton.MouseButton1Click:Connect(function()
     local player = game.Players.LocalPlayer
     if player then
         player:Kick("Rejoining due to detected mod.")
         wait(5)
         game:GetService("TeleportService"):Teleport(game.PlaceId, player)
+    end
+end)
+
+MobileToggleButton.MouseButton1Click:Connect(toggleMainFrame)
+
+game:GetService("UserInputService").InputBegan:Connect(function(input)
+    if input.KeyCode == Enum.KeyCode.F then
+        toggleAntiCheat()
     end
 end)
