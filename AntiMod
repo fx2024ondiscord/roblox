@@ -1,8 +1,6 @@
 local GameUI = Instance.new("ScreenGui")
 local MainFrame = Instance.new("Frame")
 local StatusLabel = Instance.new("TextLabel")
-local ToggleButton = Instance.new("TextButton")
-local RejoinButton = Instance.new("TextButton")
 local MobileToggleButton = Instance.new("TextButton")
 
 GameUI.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
@@ -11,37 +9,19 @@ GameUI.Name = "GameSecurityUI"
 MainFrame.Parent = GameUI
 MainFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 MainFrame.Position = UDim2.new(0.5, -100, 0.5, -75)
-MainFrame.Size = UDim2.new(0, 200, 0, 150)
+MainFrame.Size = UDim2.new(0, 200, 0, 100)
 MainFrame.Visible = true
 MainFrame.BorderSizePixel = 0
 MainFrame.BackgroundTransparency = 0.2
 
 StatusLabel.Parent = MainFrame
 StatusLabel.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-StatusLabel.Size = UDim2.new(1, 0, 0.3, 0)
-StatusLabel.Text = "Anti-Cheat Disabled"
+StatusLabel.Size = UDim2.new(1, 0, 1, 0)
+StatusLabel.Text = "This script is running"
 StatusLabel.TextColor3 = Color3.new(1, 1, 1)
 StatusLabel.TextSize = 18
 StatusLabel.Font = Enum.Font.SourceSansBold
 StatusLabel.TextStrokeTransparency = 0.8
-
-ToggleButton.Parent = MainFrame
-ToggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-ToggleButton.Position = UDim2.new(0.1, 0, 0.4, 0)
-ToggleButton.Size = UDim2.new(0.8, 0, 0.2, 0)
-ToggleButton.Text = "Enable"
-ToggleButton.TextColor3 = Color3.new(1, 1, 1)
-ToggleButton.TextSize = 18
-ToggleButton.Font = Enum.Font.SourceSans
-
-RejoinButton.Parent = MainFrame
-RejoinButton.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
-RejoinButton.Position = UDim2.new(0.1, 0, 0.7, 0)
-RejoinButton.Size = UDim2.new(0.8, 0, 0.2, 0)
-RejoinButton.Text = "Click me to Rejoin"
-RejoinButton.TextColor3 = Color3.new(1, 1, 1)
-RejoinButton.TextSize = 18
-RejoinButton.Font = Enum.Font.SourceSans
 
 MobileToggleButton.Parent = GameUI
 MobileToggleButton.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
@@ -66,11 +46,8 @@ end
 
 local function toggleAntiCheat()
     isAntiCheatActive = not isAntiCheatActive
-    StatusLabel.Text = isAntiCheatActive and "Anti-Cheat Enabled" or "Anti-Cheat Disabled"
+    StatusLabel.Text = isAntiCheatActive and "This script is running" or "This script is stopped"
     StatusLabel.BackgroundColor3 = isAntiCheatActive and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
-    ToggleButton.Text = isAntiCheatActive and "Disable" or "Enable"
-    ToggleButton.BackgroundColor3 = isAntiCheatActive and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
-    MobileToggleButton.Text = MainFrame.Visible and "Close Menu" or "Open Menu"
 
     if isAntiCheatActive then
         loadAntiCheatScript()
@@ -87,16 +64,6 @@ local function toggleMainFrame()
     MainFrame.Visible = not MainFrame.Visible
     MobileToggleButton.Text = MainFrame.Visible and "Close Menu" or "Open Menu"
 end
-
-ToggleButton.MouseButton1Click:Connect(toggleAntiCheat)
-RejoinButton.MouseButton1Click:Connect(function()
-    local player = game.Players.LocalPlayer
-    if player then
-        player:Kick("Rejoining due to detected mod.")
-        wait(5)
-        game:GetService("TeleportService"):Teleport(game.PlaceId, player)
-    end
-end)
 
 MobileToggleButton.MouseButton1Click:Connect(toggleMainFrame)
 
