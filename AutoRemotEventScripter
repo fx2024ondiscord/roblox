@@ -1,0 +1,97 @@
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "AutoScripterGui"
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0.8, 0, 0.8, 0)
+frame.Position = UDim2.new(0.1, 0, 0.1, 0)
+frame.BackgroundColor3 = Color3.fromRGB(240, 240, 240)
+frame.BorderSizePixel = 2
+frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+frame.Visible = false
+frame.Parent = screenGui
+
+local toggleButton = Instance.new("TextButton")
+toggleButton.Size = UDim2.new(0.2, 0, 0.05, 0)
+toggleButton.Position = UDim2.new(0.4, 0, 0.05, 0)
+toggleButton.Text = "Toggle Auto-Scripter"
+toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+toggleButton.BackgroundColor3 = Color3.fromRGB(0, 120, 215)
+toggleButton.BorderSizePixel = 0
+toggleButton.Parent = screenGui
+
+local generateButton = Instance.new("TextButton")
+generateButton.Size = UDim2.new(0.2, 0, 0.1, 0)
+generateButton.Position = UDim2.new(0.4, 0, 0.7, 0)
+generateButton.Text = "Generate Scripts"
+generateButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+generateButton.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+generateButton.BorderSizePixel = 0
+generateButton.Parent = frame
+
+local copyButton = Instance.new("TextButton")
+copyButton.Size = UDim2.new(0.2, 0, 0.1, 0)
+copyButton.Position = UDim2.new(0.4, 0, 0.85, 0)
+copyButton.Text = "Copy to Clipboard"
+copyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+copyButton.BackgroundColor3 = Color3.fromRGB(0, 100, 200)
+copyButton.BorderSizePixel = 0
+copyButton.Parent = frame
+
+local scriptBox = Instance.new("TextBox")
+scriptBox.Size = UDim2.new(1, 0, 0.6, 0)
+scriptBox.Position = UDim2.new(0, 0, 0.1, 0)
+scriptBox.Text = ""
+scriptBox.TextColor3 = Color3.fromRGB(0, 0, 0)
+scriptBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+scriptBox.MultiLine = true
+scriptBox.TextWrapped = true
+scriptBox.ClearTextOnFocus = false  -- Prevents text from clearing on focus
+scriptBox.Parent = frame
+
+local function generateRemoteEventScripts()
+    local scripts = {}
+    for _, obj in pairs(game:GetDescendants()) do
+        if obj:IsA("RemoteEvent") then
+            local eventName = obj.Name
+            local eventPath = obj:GetFullName()
+            local scriptCode = string.format([[
+-- Script for RemoteEvent: %s
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local remoteEvent = ReplicatedStorage:WaitForChild("%s")
+
+remoteEvent.OnClientEvent:Connect(function(data)
+    print("Received data from %s:", data)
+    -- Add your custom code here
+end)
+]], eventName, eventPath, eventName)
+
+            table.insert(scripts, scriptCode)
+        end
+    end
+    return table.concat(scripts, "\n\n")
+end
+
+generateButton.MouseButton1Click:Connect(function()
+    local generatedScripts = generateRemoteEventScripts()
+    scriptBox.Text = generatedScripts
+end)
+
+copyButton.MouseButton1Click:Connect(function()
+    -- Clipboard service cannot be directly accessed in Roblox Studio
+    -- The following is a workaround for script execution
+    local success, message = pcall(function()
+        setclipboard(scriptBox.Text)
+    end)
+    if not success then
+        warn("Failed to copy to clipboard: " .. message)
+    end
+end)
+
+scriptBox.Focused:Connect(function()
+    scriptBox.Text = ""  -- Clears the text when the TextBox is focused
+end)
+
+toggleButton.MouseButton1Click:Connect(function()
+    frame.Visible = not frame.Visible
+end)
