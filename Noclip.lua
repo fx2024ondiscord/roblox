@@ -33,3 +33,6 @@ function Noclipping(ActionName:string, Properties:EnumItem)
 end
 
 ContextActionService:BindAction('Noclip', Noclipping, true, Enum.KeyCode[NoclipKey])
+
+
+--credit kyle
