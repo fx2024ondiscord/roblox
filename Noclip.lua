@@ -5,7 +5,7 @@ getgenv().RunService = game:GetService'RunService';
 getgenv().ContextActionService = game:GetService'ContextActionService';
 
 local Noclip = true;
-local NoclipKey = 'X'; -- Change your key here
+local NoclipKey = 'R';
 
 RunService.RenderStepped:Connect(function()
     if Noclip then
