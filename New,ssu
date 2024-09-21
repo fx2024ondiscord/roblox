@@ -1,1 +1,76 @@
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
 
+local isHitboxEnabled = false
+local hitboxPart
+
+local function createAndStabilizePart(part, size, name, transparency)
+    if part then
+        local newPart = Instance.new("Part")
+        newPart.Size = size
+        newPart.Name = name
+        newPart.Transparency = transparency
+        newPart.Anchored = true
+        newPart.CanCollide = false
+        newPart.Position = part.Position
+        newPart.Parent = workspace
+    end
+end
+
+local function expandParts()
+    local character = LocalPlayer.Character
+    if character then
+        local rightArm = character:FindFirstChild("Right Arm")
+        local leftArm = character:FindFirstChild("Left Arm")
+        local head = character:FindFirstChild("Head")
+        local torso = character:FindFirstChild("Torso") or character:FindFirstChild("UpperTorso")
+
+        createAndStabilizePart(rightArm, Vector3.new(5, 1, 1), "ExpandedRightArm", 0.5)
+        createAndStabilizePart(leftArm, Vector3.new(5, 1, 1), "ExpandedLeftArm", 0.5)
+        createAndStabilizePart(head, Vector3.new(2, 2, 2), "ExpandedHead", 0.5)
+        createAndStabilizePart(torso, Vector3.new(2, 3, 1), "ExpandedTorso", 0.5)
+    end
+end
+
+local function createHitbox()
+    local humanoidRootPart = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+    if humanoidRootPart then
+        local hitboxSize = Vector3.new(10, 10, 10)
+        if hitboxPart then
+            hitboxPart:Destroy() -- Remove previous hitbox if it exists
+        end
+        hitboxPart = Instance.new("Part")
+        hitboxPart.Size = hitboxSize
+        hitboxPart.Name = "Hitbox"
+        hitboxPart.Transparency = 0.5
+        hitboxPart.Anchored = true
+        hitboxPart.CanCollide = false
+        hitboxPart.Parent = workspace
+
+        local connection
+        connection = game:GetService("RunService").RenderStepped:Connect(function()
+            if not isHitboxEnabled or not LocalPlayer.Character or not LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                if hitboxPart then
+                    hitboxPart:Destroy()
+                    hitboxPart = nil
+                end
+                connection:Disconnect()
+                return
+            end
+            hitboxPart.Position = humanoidRootPart.Position
+        end)
+    end
+end
+
+local function toggleHitbox()
+    isHitboxEnabled = not isHitboxEnabled
+    if isHitboxEnabled then
+        expandParts()
+        createHitbox()
+    elseif hitboxPart then
+        hitboxPart:Destroy()
+        hitboxPart = nil
+    end
+end
+
+return toggleHitbox
