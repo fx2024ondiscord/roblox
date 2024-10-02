@@ -1,0 +1,480 @@
+if not LPH_OBFUSCATED then -- if obfuscated then just remove this
+    getgenv().Loot = {
+        ['Options'] = {
+            ['Notifications'] = false,
+            ['FOVMode'] = "Sticky" , --// Sticky and FollowMouse
+            ['MuteBoomBox'] = true,
+            ['AutoLowGfx'] = false,
+            ['RemoveSeats'] = false,
+        },
+        ['AimAssist'] = {
+            ['Main'] = {
+                ['Enabled'] = true,
+                ['Key'] = "E",
+                ['SmoothLock'] = true,
+                ['Smoothness'] = 0.28,
+                ['PredictMovement'] = false,
+                ['Prediction'] = 0.135,
+                ['Shake'] = false,
+                ['ShakeValue'] = 5,
+                ['Parts'] = {"Head"}
+            },
+            ['FOV'] = {
+                ['UseFOV'] = true,
+                ['ShowFOV'] = false,
+                ['Radius'] = 120,
+                ['Color'] = Color3.fromRGB(255, 255, 255),
+                ['Filled'] = false,
+                ['Transparency'] = 0.4
+            }
+        },
+        ["SilentAim"] = {
+            ['Main'] = {
+                ['Enabled'] = true,
+                ['Mode'] = "Target", --// Regular and Target (regular doesnt work right now)
+                ['KeyBind'] = 'C',
+                ['Prediction'] = 0.1282,
+                ['Hitchance'] = 500,
+                ['Parts'] = {"Head","LowerTorso","UpperTorso","HumanoidRootPart","LeftLowerArm","RightLowerArm","LeftUpperArm","RightUpperArm","LeftLowerLeg","LeftUpperLeg","RightLowerLeg","RightUpperLeg"},
+                ['OverrideYaxis'] = true, --// Makes Silent Aim Alot More Legit
+                ['AntiCurve'] = true,
+                ['AntiGroundShots'] = true,
+                ['ClosestPoint'] = true
+    
+            },
+            ['FOV'] = {
+                ['ShowFOV'] = true,
+                ['Radius'] = 70,
+                ['Color'] = Color3.fromRGB(255, 255, 255),
+                ['Filled'] = false,
+                ['Transparency'] = 0.8
+            }
+        },
+        ['Snapline'] = {
+            ['Enabled'] = false,
+            ['Color'] = Color3.fromRGB(255, 255, 255),
+            ['Transparency'] = 0.4,
+            ['Visible'] = false
+        },
+        ['Extra'] = {
+            ['TrashTalk'] = true
+        },
+        ['CFrame'] = {
+            ['Enabled'] = true,
+            ['Toggle'] = "V"
+        },
+        ['Desync'] = {
+            ['Enabled'] = true,
+            ['Key'] = Enum.KeyCode.X,
+            ['DirectionToShoot'] = "Behind"
+        },
+        ['Visuals'] = {
+            ['DistanceESP'] = true,
+            ['WeaponESP'] = false,
+            ['HealthBar'] = true,
+            ['NameESP'] = false,
+            ['Radar'] = true
+        },
+        ['Texture'] = {
+            ['Enabled'] = true,
+            ['Material'] = "Brick",
+            ['Color'] = Color3.fromRGB(255,255,255)
+        },
+        ['WaterMark'] = {
+            ['Enabled'] = false,
+            ['ShowFPS'] = true
+        },
+        ['PingPrediction'] = { -- *REWRITE* Current sets are Bad
+            ['Enabled'] = true,
+            ['ping20_30'] = 0.12588,
+            ['ping30_40'] = 0.11911,
+            ['ping40_50'] = 0.12471,
+            ['ping50_60'] = 0.12766,
+            ['ping60_70'] = 0.12731,
+            ['ping70_80'] = 0.12951,
+            ['ping80_90'] = 0.13181,
+            ['ping90_100'] = 0.138,
+            ['ping100_110'] = 0.146,
+            ['ping110_120'] = 0.1367,
+            ['ping120_130'] = 0.1401,
+            ['ping130_140'] = 0.1437,
+            ['ping140_150'] = 0.153,
+            ['ping150_160'] = 0.1514,
+            ['ping160_170'] = 0.1663,
+            ['ping170_180'] = 0.1672,
+            ['ping180_190'] = 0.1848,
+            ['ping190_200'] = 0.1865,
+        }
+    }
+end
+
+     
+     local function getnamecall()
+        if game.PlaceId == 2788229376 or game.PlaceId == 17319408836 or game.PlaceId == 17344804827 or game.PlaceId == 16374148613 or game.PlaceId == 17108757521 or game.PlaceId == 17109142105 or game.PlaceId == 17055114130 or game.PlaceID == 17108910530 or game.PlaceId == 17108801343 then
+            return "UpdateMousePos1"
+        end
+     end
+     
+     local namecalltype = getnamecall()
+     
+    local function MainEventLocate()
+        for _,v in pairs(game:GetService("ReplicatedStorage"):GetDescendants()) do
+            if v.Name == "MainEvent" then
+                return v
+            end
+        end
+     end
+     
+     local mainevent = MainEventLocate()
+     
+     -- // Shorthand
+     local uwuLoot = getgenv().Loot
+     local uwuMain = uwuLoot.Options
+     local uwuAimAssistMain = uwuLoot.AimAssist.Main
+     local uwuAimAssistFOV = uwuLoot.AimAssist.FOV
+     local uwuSilentAimMain = uwuLoot.SilentAim.Main
+     local uwuAntiGroundShots = uwuLoot.SilentAim.AntiGroundShots
+     local uwuAntiCurve = uwuLoot.SilentAim.AntiCurve
+     local uwuSilentAimFOV = uwuLoot.SilentAim.FOV
+     local uwuTrace = uwuLoot.Snapline
+     local uwuPingPred = uwuLoot.PingPrediction
+     local uwuFAG = uwuLoot.WaterMark
+     local uwuBLACKDICK = uwuLoot.Visuals.DistanceESP
+     local uwuHAHAHAHAH = uwuLoot.Visuals.WeaponESP
+     local uwuNIGGER = uwuLoot.CFrame
+     local uwuCUMCUMCUM = uwuLoot.Extra.TrashTalk
+     local uwuNIGGA = uwuLoot.Visuals.HealthBar
+     local uwuPENIS = uwuLoot.Visuals.NameESP
+     local uwuAHAAHAAHHAHAHA = uwuLoot.Visuals.Radar
+     local uwuAUFHAUYFGHYUFHFUHJ = uwuLoot.Desync
+     
+    
+     
+     -- // Optimization
+     local vect3 = Vector3.new
+     local vect2 = Vector2.new
+     local cnew = CFrame.new
+     
+     -- // Libraries
+     local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+     local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/cloudtad9/daasddadsadadsad/main/adadassadasd"))()
+     local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Consistt/Ui/main/UnLeaked"))()
+     
+     -- // Services
+     local uis = game:GetService("UserInputService")
+     local rs = game:GetService("RunService")
+     local plrs = game:GetService("Players")
+     local ws = game:GetService("Workspace")
+     
+     -- // Script Variables
+     local CToggle = false
+     local lplr = plrs.LocalPlayer
+     local CTarget = nil
+     local CPart = nil
+     local SToggle = false
+     local STarget = nil
+     local SPart = nil
+     
+     -- // Client Variables
+     local m = lplr:GetMouse()
+     local c = ws.CurrentCamera
+     
+     local function SendNotification(text)
+        Notification:Notify(
+            {Title = "Loot.fun - 战利品乐趣", Description = " "..text},
+            {OutlineColor = Color3.fromRGB(255,255,255),Time = 2, Type = "image"},
+            {Image = "http://www.roblox.com/asset/?id=6023426923", ImageColor = Color3.fromRGB(255,255,255)}
+        )
+     end 
+     
+     -- // Call notification function
+     if uwuMain.Notifications then
+        SendNotification("@tad - injecting Loot.fun")
+        wait(3.5)
+        SendNotification("@tad - finished injecting Loot.fun")
+        wait(3.5)
+        SendNotification("@ozlbible - Start 2 tapping Son")
+     end
+     
+     -- // Camlock FOV
+     local AimAssistFOV = Drawing.new("Circle")
+     AimAssistFOV.Visible = uwuAimAssistFOV.ShowFOV
+     AimAssistFOV.Thickness = 1
+     AimAssistFOV.NumSides = 30
+     AimAssistFOV.Radius = uwuAimAssistFOV.Radius * 3
+     AimAssistFOV.Color = uwuAimAssistFOV.Color
+     AimAssistFOV.Filled = uwuAimAssistFOV.Filled
+     AimAssistFOV.Transparency = uwuAimAssistFOV.Transparency
+     
+     --Silent FOV
+     local SilentAimFOV = Drawing.new("Circle")
+     SilentAimFOV.Visible = uwuSilentAimFOV.ShowFOV
+     SilentAimFOV.Thickness = 1
+     SilentAimFOV.NumSides = 30
+     SilentAimFOV.Radius = uwuSilentAimFOV.Radius * 3
+     SilentAimFOV.Color = uwuSilentAimFOV.Color
+     SilentAimFOV.Filled = uwuSilentAimFOV.Filled
+     SilentAimFOV.Transparency = uwuSilentAimFOV.Transparency
+     
+     --Tracer
+     local Line = Drawing.new("Line")
+     Line.Color = uwuTrace.Color
+     Line.Transparency = uwuTrace.Transparency
+     Line.Thickness = 1
+     Line.Visible = uwuTrace.Visible
+     
+     -- // Script Functions
+     local function uwuFindTawget() -- // Find target
+        local d, t = math.huge, nil
+        for _,v in pairs (plrs:GetPlayers()) do
+            local _,os = c:WorldToViewportPoint(v.Character.PrimaryPart.Position)
+            if v ~= lplr and v.Character and v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid.Health ~= 0 and v.Character:FindFirstChild("HumanoidRootPart") and os then
+                local pos = c:WorldToViewportPoint(v.Character.PrimaryPart.Position)
+                local magnitude = (vect2(pos.X, pos.Y) - vect2(m.X, m.Y + 36)).magnitude
+                if magnitude < d then
+                    t = v
+                    d = magnitude
+                end
+            end
+        end
+        return t
+     end
+     
+     local function uwuFindPart() -- // Find aimpart
+        local d, p = math.huge, nil
+        if CTarget then
+            for _,v in pairs(CTarget.Character:GetChildren()) do
+                if table.find(uwuAimAssistMain.Parts, v.Name) then
+                    local pos = c:WorldToViewportPoint(v.Position)
+                    local Magn = (vect2(m.X, m.Y + 36) - vect2(pos.X, pos.Y)).Magnitude
+                    if Magn < d then
+                        d = Magn
+                        p = v
+                    end
+                end
+            end
+            return p.Name
+        end
+     end
+     
+     local function uwuFindSilentPart() -- // Find aimpart
+        local d, p = math.huge, nil
+        if CTarget then
+            for _,v in pairs(CTarget.Character:GetChildren()) do
+                if table.find(uwuSilentAimMain.Parts, v.Name) then
+                    local pos = c:WorldToViewportPoint(v.Position)
+                    local Magn = (vect2(m.X, m.Y + 36) - vect2(pos.X, pos.Y)).Magnitude
+                    if Magn < d then
+                        d = Magn
+                        p = v
+                    end
+                end
+            end
+            return p.Name
+        end
+     end
+     
+     local function uwuCheckAnti(targ) -- // Anti-aim detection
+        if (targ.Character.HumanoidRootPart.Velocity.Y < -5 and targ.Character.Humanoid:GetState() ~= Enum.HumanoidStateType.Freefall) or targ.Character.HumanoidRootPart.Velocity.Y < -50 then
+            return true
+        elseif targ and (targ.Character.HumanoidRootPart.Velocity.X > 35 or targ.Character.HumanoidRootPart.Velocity.X < -35) then
+            return true
+        elseif targ and targ.Character.HumanoidRootPart.Velocity.Y > 60 then
+            return true
+        elseif targ and (targ.Character.HumanoidRootPart.Velocity.Z > 35 or targ.Character.HumanoidRootPart.Velocity.Z < -35) then
+            return true
+        else
+            return false
+        end
+     end
+     
+     local function InSilentRadiuwus(target, section, fov) -- // Check if player is in the fov
+        if target then
+            local pos = nil
+            if not uwuCheckAnti(target) then
+                pos = c:WorldToViewportPoint(target.Character.PrimaryPart.Position + target.Character.PrimaryPart.Velocity * section.Prediction)
+            else
+                pos = c:WorldToViewportPoint(target.Character.PrimaryPart.Position + ((target.Character.Humanoid.MoveDirection * target.Character.Humanoid.WalkSpeed) * section.Prediction))
+            end
+            local mag = (vect2(m.X, m.Y + 36) - vect2(pos.X, pos.Y)).Magnitude
+            if mag < fov * 3 then
+                return true
+            else
+                return false
+            end
+        end
+     end
+     
+     local function Silent()
+        if STarget then
+            if SPart and InSilentRadiuwus(STarget, uwuSilentAimMain, SilentAimFOV.Radius) then
+                if not uwuCheckAnti(STarget) then
+                    mainevent:FireServer(namecalltype, STarget.Character[SPart].Position + (STarget.Character[SPart].Velocity * uwuSilentAimMain.Prediction))
+                else
+                    mainevent:FireServer(namecalltype, STarget.Character[SPart].Position + ((STarget.Character.Humanoid.MoveDirection * STarget.Character.Humanoid.WalkSpeed) * uwuSilentAimMain.Prediction))
+                end
+            end
+        end
+     end
+     
+     
+     local function InRadiuwus(target, section, fov) -- // Check if player is in the fov
+        if target then
+            if uwuAimAssistFOV.UseFOV then
+                local pos = nil
+                if not uwuCheckAnti(target) then
+                    pos = c:WorldToViewportPoint(target.Character.PrimaryPart.Position + target.Character.PrimaryPart.Velocity * section.Prediction)
+                else
+                    pos = c:WorldToViewportPoint(target.Character.PrimaryPart.Position + ((target.Character.Humanoid.MoveDirection * target.Character.Humanoid.WalkSpeed) * section.Prediction))
+                end
+                local mag = (vect2(m.X, m.Y + 36) - vect2(pos.X, pos.Y)).Magnitude
+                if mag < fov * 3 then
+                    return true
+                else
+                    return false
+                end
+            else
+                return true
+            end
+        end
+     end
+     
+     uis.InputBegan:Connect(function(k,t)
+        if not t then
+            if k.KeyCode == Enum.KeyCode[uwuAimAssistMain.Key:upper()] then
+                if CTarget == nil then
+                CToggle = true
+                CTarget = uwuFindTawget()
+                if uwuMain.Notifications then
+                    SendNotification("Aim Target "..CTarget.Name)
+                end
+           else
+                if CToggle == true then
+                    CToggle = false
+                    CTarget = nil
+                    if uwuMain.Notifications then
+                        SendNotification("Unlocked")
+                    end
+                end
+            end
+            elseif k.KeyCode == Enum.KeyCode[uwuSilentAimMain.KeyBind:upper()] and uwuSilentAimMain.Mode == "Regular" then
+                if SToggle then
+                    SToggle = false
+                    if uwuMain.Notifications then
+                        SendNotification("silent disabled")
+                    end
+                else
+                    SToggle = true
+                    if uwuMain.Notifications then
+                        SendNotification("silent enabled")
+                    end
+                end
+            end
+        end
+    end)
+     
+     rs.RenderStepped:Connect(function()
+        if CTarget then
+            CPart = uwuFindPart()
+            local pos = nil
+            local cum = nil
+            if CTarget.Character.BodyEffects["K.O"].Value == true or lplr.Character.BodyEffects["K.O"].Value == true then
+                CToggle = false
+                CTarget = nil
+            else
+                if uwuAimAssistMain.Shake then
+                    if uwuAimAssistMain.PredictMovement then
+                        if not uwuCheckAnti(CTarget) then
+                            cum = CTarget.Character[CPart].Position + CTarget.Character[CPart].Velocity * uwuAimAssistMain.Prediction + (vect3(
+                                math.random(-uwuAimAssistMain.ShakeValue, uwuAimAssistMain.ShakeValue),
+                                math.random(-uwuAimAssistMain.ShakeValue, uwuAimAssistMain.ShakeValue),
+                                math.random(-uwuAimAssistMain.ShakeValue, uwuAimAssistMain.ShakeValue)
+                            ) * 0.1)
+                        else
+                            cum = CTarget.Character[CPart].Position + ((CTarget.Character.Humanoid.MoveDirection * CTarget.Character.Humanoid.WalkSpeed) * uwuAimAssistMain.Prediction + (vect3(
+                                math.random(-uwuAimAssistMain.ShakeValue, uwuAimAssistMain.ShakeValue),
+                                math.random(-uwuAimAssistMain.ShakeValue, uwuAimAssistMain.ShakeValue),
+                                math.random(-uwuAimAssistMain.ShakeValue, uwuAimAssistMain.ShakeValue)
+                            ) * 0.1))
+                        end
+                        pos = c:WorldToViewportPoint(cum)
+                    else
+                        cum = CTarget.Character[CPart].Position + (vect3(
+                            math.random(-uwuAimAssistMain.ShakeValue, uwuAimAssistMain.ShakeValue),
+                            math.random(-uwuAimAssistMain.ShakeValue, uwuAimAssistMain.ShakeValue),
+                            math.random(-uwuAimAssistMain.ShakeValue, uwuAimAssistMain.ShakeValue)
+                        ) * 0.1)
+                        pos = c:WorldToViewportPoint(cum)
+                    end
+                else
+                    if uwuAimAssistMain.PredictMovement then
+                        if not uwuCheckAnti(CTarget) then
+                            cum = CTarget.Character[CPart].Position + CTarget.Character[CPart].Velocity * uwuAimAssistMain.Prediction
+                        else
+                            cum = CTarget.Character[CPart].Position + ((CTarget.Character.Humanoid.MoveDirection * CTarget.Character.Humanoid.WalkSpeed) * uwuAimAssistMain.Prediction)
+                        end
+                        pos = c:WorldToViewportPoint(cum)
+                    else
+                        cum = CTarget.Character[CPart].Position
+                        pos = c:WorldToViewportPoint(cum)
+                    end
+                end
+                if InRadiuwus(CTarget, uwuAimAssistMain, AimAssistFOV.Radius) then
+                    local main = nil
+                    if uwuAimAssistMain.SmoothLock then
+                        main = cnew(c.CFrame.p, cum)
+                        c.CFrame = c.CFrame:Lerp(main, uwuAimAssistMain.Smoothness, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut)
+                    else
+                        c.CFrame = cnew(c.CFrame.p, cum)
+                    end
+                end
+                if uwuMain.FOVMode == "FollowMouse" then
+                    if uwuAimAssistFOV.ShowFOV then
+                        AimAssistFOV.Position = vect2(m.X, m.Y + 36)
+                    end
+                    if uwuSilentAimFOV.ShowFOV then
+                        SilentAimFOV.Position = vect2(m.X, m.Y + 36)
+                    end
+                elseif uwuMain.FOVMode == "Sticky" then
+                    if uwuAimAssistFOV.ShowFOV then
+                        AimAssistFOV.Position = vect2(pos.X, pos.Y)
+                    end
+                    if uwuSilentAimFOV.ShowFOV then
+                        SilentAimFOV.Position = vect2(pos.X, pos.Y)
+                    end
+                end
+                if uwuTrace.Enabled then
+                    Line.Visible = true
+                    Line.From = vect2(m.X, m.Y + 36)
+                    Line.To = vect2(pos.X, pos.Y)
+                end
+            end
+        else
+            AimAssistFOV.Position = vect2(m.X, m.Y + 36)
+            SilentAimFOV.Position = vect2(m.X, m.Y + 36)
+            Line.Visible = false
+        end
+     end)
+     
+     lplr.Character.ChildAdded:Connect(function(tool)
+        if tool:IsA("Tool") then
+            tool.Activated:connect(function()
+                if uwuSilentAimMain.Mode == "Regular" then
+                    if SToggle then
+                        STarget = uwuFindTawget()
+                        if STarget then
+                            SPart = uwuFindSilentPart()
+                            if SPart then
+                                Silent()
+                            end
+                        end
+                    end
+                elseif uwuSilentAimMain.Mode == "Target" then
+                    if CToggle then
+                        STarget = CTarget
+                        if STarget then
+                            SPart = uwuFindSilentPart()
+                            if SPart then
+                                Silent()
+                            end
+       
