@@ -42,7 +42,7 @@ local function createHitbox()
         hitboxPart = Instance.new("Part")
         hitboxPart.Size = hitboxSize
         hitboxPart.Name = "Hitbox"
-        hitboxPart.Transparency = 0.5
+        hitboxPart.Transparency = 1
         hitboxPart.Anchored = true
         hitboxPart.CanCollide = false
         hitboxPart.Parent = workspace
