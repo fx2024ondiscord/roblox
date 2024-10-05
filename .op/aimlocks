@@ -1,0 +1,824 @@
+getgenv().lockware = {
+    ["Main"] = {
+        ["Intro"] = true,
+        Fps = {
+            ["Enabled"] = true,
+            ["Percent"] = 0
+        },
+        ["Gui"] = true,
+        ["Keybind"] = "V",
+        ["Visible Text"] = true
+    },
+    Cmds = {
+        ["Enabled"] = false,
+        ["Fov"] = "!F",
+        ["Prediction"] = "!P"
+    },
+    ["Textures"] = {
+        ["Ambient"] = {
+            ["Enabled"] = false,
+            ["Color"] = Color3.fromRGB(4, 0, 255)
+        },
+        ["OutDoor Ambient"] = {
+            ["Enabled"] = false, -- // Had To Push The Release
+            ["Color"] = Color3.fromRGB(4, 0, 255)
+        },
+        ["Fog Modifications"] = {
+            ["Enabled"] = false, -- // Modifies Your Fog
+            ["Color"] = Color3.fromRGB(4, 0, 255),
+            ["Start"] = 25,
+            ["End"] = 100
+        }
+    },
+    ["Title"] = {
+        ["Text"] = "lockware",
+        ["Extension"] = {
+            ["Fringe"] = "(",
+            ["End"] = ")"
+        },
+        ["Size"] = 13
+    },
+    ["Scale"] = {
+        ["X"] = 10 * 10,
+        ["Y"] = 10 * 1
+    },
+    ["Color"] = {
+        ["Inline"] = Color3.fromRGB(255, 246, 180),
+        ["Outline"] = Color3.fromRGB()
+    },
+    ["Fade Speed"] = {
+        ["Intro"] = 0.1,
+        ["Outro"] = 0.01
+    },
+    ["Link"] = {
+        ["Check"] = {
+            ["Team"] = false,
+            ["IsDead"] = true,
+            ["Visible"] = true,
+            ["Resolver"] = false
+        },
+        ["Fov"] = {
+            ["Visual"] = {
+                ["Enabled"] = true,
+                ["Keybind"] = "T",
+                ["Radius"] = 190.2,
+                ["Inline"] = {
+                    ["Transparency"] = 0.4,
+                    ["Color"] = Color3.fromRGB(255, 255, 255)
+                },
+                ["Outline"] = {
+                    ["Transparency"] = 0.65,
+                    ["Color"] = Color3.fromRGB(0, 0, 0)
+                },
+                ["Control"] = {
+                    ["Stick To Target"] = false
+                }
+            }
+        }
+    },
+    ["Aimbot"] = {
+        ["Redirection"] = {
+            ["Extension"] = {
+                ["Fringe"] = "{",
+                ["End"] = "}"
+            },
+            ["Tab"] = {
+                ["Enabled"] = true,
+                ["Keybind"] = "X"
+            },
+            ["HitPart"] = {
+                ["Target"] = "HumanoidRootPart",
+                ["Revaluate"] = {
+                    ["Enabled"] = false,
+                    ["Origin"] = "Humanoid"
+                },
+                ["Validated Part"] = {"HumanoidRootPart", "Head"}
+            },
+            ["HitChance"] = {
+                ["Enabled"] = false,
+                ["Amount"] = 100
+            },
+            ["Prediction"] = {
+                ["Enabled"] = true,
+                ["Amount"] = 0.145567724521
+            },
+            ["Panel"] = {
+                ["Method"] = "FindPartOnRayWithIgnoreList",
+                ["Target"] = {
+                    ["Enabled"] = true,
+                    ["Keybind"] = "C",
+                    ["Player"] = nil,
+                    ["Position"] = {
+                        ["From"] = "LowerTorso"
+                    }
+                }
+            },
+            ["IndicateMousePos"] = {
+                ["Enabled"] = true
+            },
+            ["Drawing"] = {
+                ["Color1"] = Color3.new(211, 211, 211),
+                ["Color2"] = Color3.new(128, 0, 0),
+                ["Indication Color"] = Color3.new(255, 0, 0),
+                ["Line Color"] = Color3.new(255, 255, 255),
+                ["Line Outline Color"] = Color3.new(0, 0, 0)
+            }
+        },
+        ["Aimbot"] = {
+            ["Panel"] = {
+                ["Enabled"] = true,
+                ["Keybind"] = {
+                    ["Enabled"] = "F",
+                    ["Disabled"] = "G"
+                },
+                ["HitPart"] = {
+                    ["Target"] = "HumanoidRootPart",
+                    ["Revaluate"] = {
+                        ["Enabled"] = false,
+                        ["Origin"] = "Humanoid"
+                    }
+                },
+                ["Prediction"] = {
+                    ["Enabled"] = true,
+                    ["Amount"] = 10
+                },
+                ["Assist"] = {
+                    ["Enabled"] = true,
+                    ["Amount"] = 40
+                },
+                ["Panel"] = {
+                    ["Method"] = "Camera",
+                    ["Target"] = false,
+                    ["Lerp"] = {
+                        ["Type"] = "Linear",
+                        ["Direction"] = "In"
+                    }
+                }
+            }
+        }
+    },
+    ["Visual"] = {
+        ["ESP"] = {
+            Initiate = true,
+            Enabled = true,
+            Size = 13,
+            Font = 2,
+            Color = Color3.new(244, 245, 243)
+        }
+    }
+}
+
+if not LPH_OBFUSCATED then
+    LPH_JIT_MAX = function(...)
+        return (...)
+    end
+    LPH_JIT_ULTRA = function(...)
+        return (...)
+    end
+end
+
+LPH_JIT_MAX(
+    function()
+        local Drawing, FromRGB = Drawing.new, Color3.fromRGB
+        local UIS, Players, MPS, RunService, Camera, Tween =
+            game:GetService("UserInputService"),
+            game:GetService("Players"),
+            game:GetService("MarketplaceService"),
+            game:GetService("RunService"),
+            workspace.CurrentCamera,
+            {}
+
+        function Direction(Value, Two)
+            return Vector2.new(Value / lockware["Scale"].X, Two / lockware["Scale"].Y)
+        end
+
+        local Title = Drawing("Text")
+        local Value = Drawing("Text")
+        local Part = Drawing("Text")
+        if lockware["Main"]["Intro"] == true then
+            local Tracer = Drawing("Image")
+            local Blur = Instance.new("BlurEffect")
+            local screenSize = workspace.CurrentCamera.ViewportSize
+            local centerPosition = Vector2.new(screenSize.X / 2, screenSize.Y / 2)
+            Tracer.Position = centerPosition
+            Tracer.Size = Vector2.new(0, 0)
+            Tracer.Visible = true
+            Tracer.Data = game:HttpGet("")-- staff please fix this
+            Blur.Size = 0
+            Blur.Parent = workspace.CurrentCamera
+            for i = 1, 100 do
+                if Blur.Size ~= 150 then
+                    Blur.Size = Blur.Size + 1
+                end
+                task.wait()
+            end
+            wait(2)
+            Tracer.Size = Vector2.new(400, 400)
+            Tracer.Position = centerPosition - Tracer.Size / 2
+            for i = 1, 100 do
+                if Tracer.Transparency ~= 0 then
+                    Tracer.Transparency = Tracer.Transparency - 0.01
+                end
+                if Blur.Size ~= 0 then
+                    Blur.Size = Blur.Size - 1
+                end
+                task.wait()
+            end
+            Tracer.Size = Vector2.new(0, 0)
+            Blur:Destroy()
+        end
+        wait(0.15)
+
+        local function Table()
+            local hitparts = lockware.Aimbot.Redirection["HitPart"]["Validated Parts"]
+
+            Title.Position, Title.Size =
+                Direction(Camera.ViewportSize.X + 800, Camera.ViewportSize.Y),
+                lockware["Title"].Size
+            Value.Position, Value.Size =
+                Direction(Camera.ViewportSize.X, Camera.ViewportSize.Y + 400),
+                lockware["Title"].Size
+            Part.Position, Part.Size =
+                Direction(Camera.ViewportSize.X + 800, Camera.ViewportSize.Y + 600),
+                lockware["Title"].Size
+
+            if lockware["Main"]["Gui] then
+                Title.Text, Title.Font =
+                    tostring(
+                        lockware["Title"].Text ..
+                            " " ..
+                                lockware["Title"].Extension.Fringe ..
+                                    game.Stats.Workspace.Heartbeat:GetValueString() .. lockware["Title"].Extension.End
+                    ),
+                    2
+                Title.Visible, Title.Outline, Title.Color, Title.OutlineColor =
+                    lockware["Main"]["Visible Text"],
+                    true,
+                    lockware["Color"].Inline,
+                    lockware["Color"].Outline
+
+                Value.Font, Value.Visible, Value.Outline, Value.Color, Value.OutlineColor =
+                    2,
+                    lockware["Main"]["Visible Text"],
+                    true,
+                    lockware.Aimbot.Redirection["Drawing"]["Color1"],
+                    lockware["Color"].Outline
+
+                Part.Font, Part.Visible, Part.Outline, Part.Color, Part.OutlineColor =
+                    2,
+                    lockware["Main"]["Visible Text"],
+                    true,
+                    lockware.Aimbot.Redirection["Drawing"]["Color2"],
+                    lockware["Color"].Outline
+
+                if lockware.Aimbot.Redirection["Tab"].Enabled then
+                    Value.Text = lockware.Aimbot.Redirection.Extension.Fringe .. "redirection" .. " = " .. "enabled" -- Function.Aimbot.Redirection.Extension.End
+                    Part.Text =
+                        tostring(
+                        "hitpart" ..
+                            " = " ..
+                                (lockware.Aimbot["Redirection"]["HitPart"]["Target"]):lower() ..
+                                    lockware.Aimbot.Redirection.Extension.End
+                    )
+                else
+                    Part.Text = ""
+                    Value.Text =
+                        lockware.Aimbot.Redirection.Extension.Fringe ..
+                        "redirection" .. " = " .. "disabled" .. lockware.Aimbot.Redirection.Extension.End
+                end
+            else
+            end
+        end
+
+        local Utilitie = {}
+        Utilitie.Toggle = false
+
+        UIS.InputBegan:Connect(
+            function(Two, Input)
+                if not Input then
+                    if Two.KeyCode.Name == lockware["Main"]["Keybind"] then
+                        Utilitie.Toggle = not Utilitie.Toggle
+                        if Utilitie.Toggle then
+                            RunService:BindToRenderStep("Table!", 1, Table)
+                            for i = 0, 1, lockware["Fade Speed"].Intro do
+                                wait(0)
+                                Title.Transparency = i
+                                Value.Transparency = i
+                                Part.Transparency = i
+                            end
+
+                            lockware["Main"]["Gui"] = true
+                            lockware["Main"]["Visible Text"] = true
+                        elseif not Utilitie.Toggle then
+                            RunService:UnbindFromRenderStep("Table")
+                            lockware["Main"]["Gui"] = false
+
+                            Title.Transparency = 0.9
+                            Value.Transparency = 0.9
+                            Part.Transparency = 0.9
+                            wait(lockware["Fade Speed"].Outro)
+                            Title.Transparency = 0.8
+                            Value.Transparency = 0.8
+                            Part.Transparency = 0.8
+                            wait(lockware["Fade Speed"].Outro)
+                            Title.Transparency = 0.7
+                            Value.Transparency = 0.7
+                            Part.Transparency = 0.7
+                            wait(lockware["Fade Speed"].Outro)
+                            Title.Transparency = 0.6
+                            Value.Transparency = 0.6
+                            Part.Transparency = 0.6
+                            wait(lockware["Fade Speed"].Outro)
+                            Title.Transparency = 0.5
+                            Value.Transparency = 0.5
+                            Part.Transparency = 0.5
+                            wait(lockware["Fade Speed"].Outro)
+                            Title.Transparency = 0.4
+                            Value.Transparency = 0.4
+                            Part.Transparency = 0.4
+                            wait(lockware["Fade Speed"].Outro)
+                            Title.Transparency = 0.3
+                            Value.Transparency = 0.3
+                            Part.Transparency = 0.3
+                            wait(lockware["Fade Speed"].Outro)
+                            Title.Transparency = 0.2
+                            Value.Transparency = 0.2
+                            Part.Transparency = 0.2
+                            wait(lockware["Fade Speed"].Outro)
+                            Title.Transparency = 0.1
+                            Value.Transparency = 0.1
+                            Part.Transparency = 0.1
+                            wait(lockware["Fade Speed"].Outro)
+                            Title.Transparency = 0.1
+                            Value.Transparency = 0.1
+                            Part.Transparency = 0.1
+                            wait(lockware["Fade Speed"].Outro)
+
+                            Title.Transparency = 0
+                            Value.Transparency = 0
+                            Part.Transparency = 0
+                        end
+                    end
+                end
+            end
+        )
+
+        WTS = (function(Object)
+            local ObjectVector = Camera:WorldToScreenPoint(Object.Position)
+            return Vector2.new(ObjectVector.X, ObjectVector.Y)
+        end)
+
+        local Fov = {}
+        Fov.MouseLink, Fov.Outline, Fov.Inline = Drawing("Circle"), Drawing("Circle"), Drawing("Circle")
+
+        Fov.Line, Fov.LineOutline = Drawing("Line"), Drawing("Line")
+
+        Fov.Inline.Visible = lockware.Link.Fov.Visual.Enabled
+        Fov.Inline.Radius = lockware.Link.Fov.Visual.Radius
+        Fov.Inline.Transparency = lockware.Link.Fov.Visual.Inline.Transparency
+        Fov.Inline.Color = lockware.Link.Fov.Visual.Inline.Color
+
+        Fov.Inline.Thickness = 3
+        Fov.Outline.Thickness = 4
+
+        Fov.Line.Thickness = 3
+        Fov.Line.Transparency = 0.8
+        Fov.Line.Color = lockware.Aimbot["Redirection"]["Drawing"]["Line Color"]
+
+        Fov.LineOutline.Thickness = 7
+        Fov.LineOutline.Transparency = 0.4
+        Fov.LineOutline.Color = lockware.Aimbot["Redirection"]["Drawing"]["Line Outline Color"]
+
+        Fov.Inline.Filled = true
+
+        Fov.Outline.Filled = false
+        Fov.Outline.Visible = lockware.Link.Fov.Visual.Enabled
+        Fov.Outline.Radius = Fov.Inline.Radius
+        Fov.Outline.Transparency = lockware.Link.Fov.Visual.Outline.Transparency
+        Fov.Outline.Color = lockware.Link.Fov.Visual.Outline.Color
+        local GameInfo = game.PlaceId
+
+        local LocalPlayer = Players.LocalPlayer
+        local Mouse = LocalPlayer:GetMouse()
+
+        local IgnoreList = {LocalPlayer.Character, Camera}
+
+        local function PartVisible(Part)
+            if lockware.Link.Check["Visible"] and Part and Part.Head then
+                local Hit =
+                    workspace:FindPartOnRayWithIgnoreList(
+                    Ray.new(Camera.CFrame.Position, Part.Head.Position - Camera.CFrame.Position),
+                    IgnoreList
+                )
+                if Hit and Hit:IsDescendantOf(Part) then
+                    return true
+                end
+                return false
+            else
+                return true
+            end
+        end
+
+        function ClosestToCursor()
+            local Closest = nil
+            local Distance = Fov.Inline.Radius
+            for i, v in pairs(Players:GetPlayers()) do
+                if
+                    v ~= game.Players.LocalPlayer and v.Character and v.Character:FindFirstChild("HumanoidRootPart") and
+                        (lockware.Link["Check"]["Team"] == true and (v.Team ~= LocalPlayer.Team) or
+                            lockware.Link["Check"]["Team"] ~= true)
+                 then
+                    local MouseLocation = UIS:GetMouseLocation()
+
+                    local Vector, IsVisible = Camera:WorldToViewportPoint(v.Character.HumanoidRootPart.Position)
+                    local Magnitude =
+                        (Vector2.new(Vector.X, Vector.Y) - Vector2.new(MouseLocation.X, MouseLocation.Y)).magnitude
+
+                    if Magnitude < Distance and IsVisible and PartVisible(v.Character) then
+                        Closest = v
+                        Distance = Magnitude
+                    end
+                end
+            end
+
+            if GameInfo == 2788229376 and lockware.Link["Check"]["IsDead"] then
+                if
+                    Closest and Closest.Character and not Closest.Character:FindFirstChild("GRABBING_CONSTRAINT") and
+                        not Closest.Character:FindFirstChild("BodyEffects")["K.O"].Value
+                 then
+                    return Closest
+                end
+                return nil
+            end
+            if GameInfo ~= 2788229376 and lockware.Link["Check"]["IsDead"] then
+                if Closest and Closest.Character and Closest.Character.Humanoid.Health > 0 then
+                    return Closest
+                end
+                return nil
+            end
+
+            return Closest
+        end
+
+        local function LineToggle(Value)
+            Fov.LineOutline.Visible = Value
+            Fov.Line.Visible = Value
+        end
+
+        local function LineRedirect()
+            if not lockware.Aimbot["Redirection"]["Panel"]["Target"].Enabled then
+                LineToggle(false)
+                return
+            end
+
+            local Target = lockware.Aimbot["Redirection"]["Panel"]["Target"].Player
+            if not Target then
+                LineToggle(false)
+                return
+            end
+            if not lockware.Aimbot["Redirection"]["Panel"]["Target"].Position.From then
+                return
+            end
+            local Vector, IsVisible =
+                Camera:worldToViewportPoint(Target.Character[lockware.Aimbot["Redirection"]["HitPart"]["Target"]].Position)
+            local TorsoPosition =
+                Camera:worldToViewportPoint(
+                LocalPlayer.Character[lockware.Aimbot["Redirection"]["Panel"]["Target"].Position.From].Position
+            )
+
+            LineToggle(IsVisible)
+            if not IsVisible then
+                return
+            end
+
+            Fov.LineOutline.From = Vector2.new(TorsoPosition.X, TorsoPosition.Y)
+            Fov.LineOutline.To = Vector2.new(Vector.X, Vector.Y)
+            Fov.Line.From = Vector2.new(TorsoPosition.X, TorsoPosition.Y)
+            Fov.Line.To = Vector2.new(Vector.X, Vector.Y)
+        end
+
+        local Toggle = {}
+        Toggle.Redirection, Toggle.Target, Toggle.FOV, Toggle.Aimbot = false, false, false, false
+
+        UIS.InputBegan:Connect(
+            function(Two, Value)
+                if not Value then
+                    if Two.KeyCode.Name == lockware.Link.Fov.Visual.Keybind then
+                        Toggle.FOV = not Toggle.FOV
+                        if Toggle.FOV then
+                            Fov.Inline.Visible = true
+                            Fov.Outline.Visible = true
+                        elseif not Toggle.FOV then
+                            Fov.Inline.Visible = false
+                            Fov.Outline.Visible = false
+                        end
+                    end
+                end
+            end
+        )
+
+        UIS.InputBegan:Connect(
+            function(Two, Value)
+                if not Value then
+                    if Two.KeyCode.Name == lockware.Aimbot["Redirection"]["Tab"].Keybind then
+                        Toggle.Redirection = not Toggle.Redirection
+                        if Toggle.Redirection then
+                            lockware.Aimbot["Redirection"]["Tab"]["Enabled"] = true
+                        elseif not Toggle.Redirection then
+                            lockware.Aimbot["Redirection"]["Tab"]["Enabled"] = false
+                        end
+                    end
+                end
+            end
+        )
+
+        UIS.InputBegan:Connect(
+            function(Two, Value)
+                if not Value then
+                    if Two.KeyCode.Name == lockware.Aimbot["Redirection"].Panel["Target"]["Keybind"] then
+                        Toggle.Target = not Toggle.Target
+                        if Toggle.Target then
+                            lockware.Aimbot["Redirection"].Panel["Target"].Enabled = true
+                            lockware.Aimbot["Redirection"]["Panel"]["Target"].Player = ClosestToCursor()
+
+                            RunService:BindToRenderStep("VisualLine", 1, LineRedirect)
+                        elseif not Toggle.Target then
+                            lockware.Aimbot["Redirection"].Panel["Target"].Enabled = false
+                            lockware.Aimbot["Redirection"]["Panel"]["Target"].Player = nil
+                            RunService:UnbindFromRenderStep("VisualLine")
+                            RunService.Heartbeat:Wait()
+                            Fov.LineOutline.Visible = false
+                            Fov.Line.Visible = false
+                        end
+                    end
+                end
+            end
+        )
+
+        local Mouse = Players.LocalPlayer:GetMouse()
+
+        local function ClosestPart()
+            local MouseToPart
+            local Distance = 1000
+            do
+                for i, v in next, lockware.Aimbot["Redirection"]["HitPart"]["Validated Part"] do
+                    local Part = ClosestToCursor().Character:FindFirstChild(v)
+                    if Part then
+                        local Magnitude = (WTS(Part) - Vector2.new(Mouse.X, Mouse.Y)).magnitude
+                        if Magnitude < Distance then
+                            MouseToPart = Part
+                            Distance = Magnitude
+                        end
+                    end
+                end
+            end
+            return MouseToPart
+        end
+
+        spawn(
+            function()
+                pcall(
+                    function()
+                        while wait() do
+                            if ClosestToCursor() ~= nil then
+                                -- Character = ClosestToCursor().Character
+                                lockware.Aimbot["Redirection"]["HitPart"]["Target"] = tostring(ClosestPart())
+                            end
+                        end
+                    end
+                )
+            end
+        )
+
+        local Aimbot = function()
+            local Target = lockware.Aimbot["Aimbot"]["Panel"]["Panel"]["Target"]
+            if not Target then
+                Target = ClosestToCursor()
+            end
+
+            if
+                lockware.Aimbot["Aimbot"]["Panel"].Enabled and Target and
+                    lockware.Aimbot["Aimbot"]["Panel"]["HitPart"]["Target"] ~= nil
+             then
+                local Part = lockware.Aimbot["Aimbot"]["Panel"]["HitPart"]["Target"]
+                local Position, Movement =
+                    Vector2.new(Mouse.X, Mouse.Y),
+                    lockware.Aimbot["Aimbot"]["Panel"]["Prediction"].Enabled
+
+                if lockware.Aimbot["Aimbot"]["Panel"]["Panel"].Method == "Camera" then
+                    -- , Enum.EasingStyle[lockware.Aimbot["Aimbot"].Lerp.Type] , Enum.EasingStyle[lockware.Aimboit.Lerp.Direction]
+
+                    Camera.CFrame =
+                        Camera.CFrame:Lerp(
+                        CFrame.new(
+                            Camera.CFrame.Position,
+                            Target.Character[Part].Position +
+                                Target.Character[Part].Velocity / lockware.Aimbot["Aimbot"]["Panel"]["Prediction"].Amount
+                        ),
+                        lockware.Aimbot["Aimbot"]["Panel"].Assist.Amount / 1000,
+                        Enum.EasingStyle[lockware.Aimbot["Aimbot"]["Panel"]["Panel"].Lerp.Type],
+                        Enum.EasingDirection[lockware.Aimbot["Aimbot"]["Panel"]["Panel"].Lerp.Direction]
+                    )
+                elseif lockware.Aimbot["Aimbot"]["Panel"]["Panel"].Method == "Mouse" then
+                    local A =
+                        Camera:WorldToScreenPoint(
+                        Target.Character[Part].Position +
+                            Target.Character[Part].Velocity / lockware.Aimbot["Aimbot"]["Panel"]["Prediction"].Amount
+                    )
+                    Position =
+                        mousemoverel(
+                        (A.X - Mouse.X) / lockware.Aimbot["Aimbot"]["Panel"].Assist.Amount,
+                        (A.Y - Mouse.Y) / lockware.Aimbot["Aimbot"]["Panel"].Assist.Amount
+                    )
+                end
+
+                if
+                    lockware.Aimbot["Aimbot"]["Panel"]["HitPart"].Revaluate.Enabled and
+                        Target.Character.Humanoid.FloorMaterial == Enum.Material.Air
+                 then
+                    Part = lockware.Aimbot["Aimbot"]["Panel"]["HitPart"].Revaluate.Origin
+                end
+            end
+        end
+
+        --[[UIS.InputBegan:Connect(
+    function(Two, Value)
+        if not Value then
+            if Two.KeyCode.Name == lockware.Aimbot["Aimbot"]["Panel"]["Keybind"] then
+                lockware.Aimbot["Aimbot"]["Panel"].Enabled = true
+        
+                RunService:BindToRenderStep("Aimbot", 1, Aimbot)
+            else
+                RunService:UnbindFromRenderStep("Aimbot")
+                lockware.Aimbot["Aimbot"]["Panel"].Enabled = false
+                lockware.Aimbot["Aimbot"]["Panel"]["Target"] = nil
+            end
+        end
+    end
+)--]]
+        --[[UIS.InputBegan:Connect(function(Input)
+    if Input.KeyCode.Name == lockware.Aimbot["Aimbot"]["Panel"]["Keybind"]  then
+        lockware.Aimbot["Aimbot"]["Panel"].Enabled = true
+        RunService:BindToRenderStep("Aimbot", 1, Aimbot)
+
+    end
+end)
+
+UIS.InputEnded:Connect(function(Input)
+    if Input.KeyCode.Name == lockware.Aimbot["Aimbot"]["Panel"]["Keybind"] then
+        RunService:UnbindFromRenderStep("Aimbot")
+        lockware.Aimbot["Aimbot"]["Panel"].Enabled = false
+        lockware.Aimbot["Aimbot"]["Panel"]["Target"] = nil   
+    end
+end)--]]
+        Mouse.KeyDown:Connect(
+            function(a)
+                if not (UIS:GetFocusedTextBox()) then
+                    if a == lockware.Aimbot["Aimbot"]["Panel"]["Keybind"]["Enabled"]:lower() then
+                        lockware.Aimbot["Aimbot"]["Panel"].Enabled = true
+                        RunService:BindToRenderStep("Aimbot", 1, Aimbot)
+                    end
+                end
+            end
+        )
+
+        Mouse.KeyDown:Connect(
+            function(a)
+                if not (UIS:GetFocusedTextBox()) then
+                    if a == lockware.Aimbot["Aimbot"]["Panel"]["Keybind"]["Disabled"]:lower() then
+                        RunService:UnbindFromRenderStep("Aimbot")
+                        lockware.Aimbot["Aimbot"]["Panel"].Enabled = false
+                        lockware.Aimbot["Aimbot"]["Panel"]["Target"] = nil
+                    end
+                end
+            end
+        )
+
+        local Meta = getrawmetatable(game)
+        local backupindex = Meta.__index
+        setreadonly(Meta, false)
+
+        Meta.__index = function(t, k)
+            if
+                k:lower() == "hit" and
+                    (lockware.Aimbot.Redirection.Tab.Enabled or lockware.Aimbot["Redirection"].Panel["Target"].Enabled)
+             then
+                local TargetPlayer
+
+                if lockware.Aimbot["Redirection"].Panel["Target"].Enabled then
+                    TargetPlayer = lockware.Aimbot["Redirection"].Panel["Target"].Player
+                else
+                    TargetPlayer = ClosestToCursor()
+                end
+
+                if TargetPlayer and TargetPlayer.Character then
+                    local Chance = lockware.Aimbot.Redirection.HitChance.Amount >= math.random(1, 100)
+                    if not Chance then
+                        return backupindex(t, k)
+                    end
+
+                    local Part = TargetPlayer.Character[lockware.Aimbot["Redirection"]["HitPart"].Target]
+                    local Position = Part.Position
+                    local Movement = Vector3.new()
+                    if not lockware.Link.Check.Resolver then
+                        Movement = Part.Velocity * lockware.Aimbot.Redirection.Prediction.Amount
+                    else
+                        Movement =
+                            TargetPlayer.Character.Humanoid.WalkSpeed * TargetPlayer.Character.Humanoid.MoveDirection *
+                            lockware.Aimbot.Redirection.Prediction.Amount
+                    end
+                    if Position then
+                        return Part.CFrame + Movement
+                    end
+                end
+            end
+            return backupindex(t, k)
+        end
+
+        LocalPlayer.Chatted:Connect(
+            function(message)
+                if lockware.Cmds.Enabled then
+                    local args = string.split(message, " ")
+                    if args[1] == lockware.Cmds.Fov and args[2] ~= nil then
+                        lockware.Link.Fov.Visual.Radius = tonumber(args[2])
+                    end
+
+                    if lockware.Cmds.Enabled then
+                        local args = string.split(message, " ")
+                        if args[1] == lockware.Cmds.Prediction and args[2] ~= nil then
+                            lockware.Aimbot.Redirection.Prediction.Amount = tonumber(args[2])
+                        end
+                    end
+                end
+            end
+        )
+
+        local function UpdateAmbient()
+            if lockware.Textures.Ambient.Enabled then
+                game:GetService("Lighting").Ambient = lockware.Textures.Ambient.Color
+            else
+                game:GetService("Lighting").Ambient = Color3.new()
+            end
+        end
+        RunService.Heartbeat:Connect(UpdateAmbient)
+        UpdateAmbient()
+
+        local function UpdateFog()
+            if lockware["Textures"]["Fog Modifications"]["Enabled"] == true then
+                game:GetService("Lighting").FogColor = lockware["Textures"]["Fog Modifications"]["Color"]
+                game:GetService("Lighting").FogStart = lockware["Textures"]["Fog Modifications"]["Start"]
+                game:GetService("Lighting").FogEnd = lockware["Textures"]["Fog Modifications"]["End"]
+            end
+        end
+        RunService.Heartbeat:Connect(UpdateFog)
+
+        local function UpdateOutDoor()
+            if lockware["Textures"]["OutDoor Ambient"]["Enabled"] == true then
+                game:GetService("Lighting").OutdoorAmbient = lockware["Textures"]["OutDoor Ambient"]["Color"]
+            end
+
+            if lockware["Textures"]["OutDoor Ambient"]["Enabled"] == false then
+                game:GetService("Lighting").OutdoorAmbient = Color3.fromRGB(125, 125, 125)
+            end
+        end
+        RunService.Heartbeat:Connect(UpdateOutDoor)
+
+        local MouseLoop =
+            RunService.Heartbeat:Connect(
+            function()
+                local MouseLocation = UIS:GetMouseLocation()
+
+                local Targeted = ClosestToCursor()
+                if lockware.Link.Fov["Visual"]["Control"]["Stick To Target"] and Targeted and Targeted.Character then
+                    local Root = Targeted.Character[lockware.Aimbot["Redirection"]["HitPart"].Target]
+                    local RootToViewportPoint, IsVisible = Camera.WorldToViewportPoint(Camera, Root.Position)
+
+                    Fov.Inline.Position = Vector2.new(RootToViewportPoint.X, RootToViewportPoint.Y)
+                    Fov.Outline.Position = Vector2.new(RootToViewportPoint.X, RootToViewportPoint.Y)
+                else
+                    Fov.Inline.Position = Vector2.new(MouseLocation.X, MouseLocation.Y)
+                    Fov.Outline.Position = Vector2.new(MouseLocation.X, MouseLocation.Y)
+                end
+
+                if
+                    lockware.Aimbot.Redirection.Tab.Enabled and lockware.Aimbot.Redirection.IndicateMousePos.Enabled and
+                        Targeted and
+                        not lockware.Aimbot["Redirection"].Panel["Target"].Enabled
+                 then
+                    local Root = Targeted.Character[lockware.Aimbot["Redirection"]["HitPart"].Target]
+                    local RootToViewportPoint, IsVisible = Camera.WorldToViewportPoint(Camera, Root.Position)
+                    Fov.MouseLink.Color = lockware.Aimbot["Redirection"]["Drawing"]["Indication Color"]
+                    Fov.MouseLink.Transparency = 1
+                    Fov.MouseLink.Thickness = 0.4
+                    Fov.MouseLink.Filled = false
+                    Fov.MouseLink.Radius = 20
+                    Fov.MouseLink.Visible = true
+                    Fov.MouseLink.Position = Vector2.new(RootToViewportPoint.X, RootToViewportPoint.Y)
+                else
+                    Fov.MouseLink.Position = Vector2.new()
+                    Fov.MouseLink.Visible = false
+                end
+            end
+        )
+    end
+)()
