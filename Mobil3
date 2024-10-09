@@ -1,3 +1,5 @@
+--script auto skidi
+
 local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
 function ipOotuHLzIMTyyWXhhYnAKaoElWYPkST(data) m=string.sub(data, 0, 100) data=data:gsub(m,'')
 
