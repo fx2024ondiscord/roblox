@@ -5,8 +5,8 @@ local fxVa2 = game:GetService("Workspace").CurrentCamera
 local fxVa3 = workspace:FindFirstChild("Junk")
 
 local fxVa4 = Color3.fromRGB(255, 80, 10)
-local fxVa5 = 3
-local fxVa6 = 0.7
+local fxVa5 = 5
+local fxVa6 = 0.3
 local fxVa7 = true
 local fxVa8 = true
 
