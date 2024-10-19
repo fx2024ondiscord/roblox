@@ -1,4 +1,4 @@
-local scriptStatus = "up" 
+local scriptStatus = "down" 
 
 if scriptStatus == "up" then
    
