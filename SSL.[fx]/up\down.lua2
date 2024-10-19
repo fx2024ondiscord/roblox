@@ -1,4 +1,4 @@
-local fxStatus = "down" 
+local fxStatus = "up" 
 
 if fxStatus == "up" then
     local function fx()
