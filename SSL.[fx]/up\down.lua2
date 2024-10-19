@@ -1,9 +1,1 @@
-local fxStatus = "up" 
 
-if fxStatus == "up" then
-    local function fx()
-  
-    end
-    
-    fx()
-end
