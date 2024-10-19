@@ -1,1 +1,9 @@
+local fxStatus = "down" 
 
+if fxStatus == "up" then
+    local function fx()
+  
+    end
+    
+    fx()
+end
