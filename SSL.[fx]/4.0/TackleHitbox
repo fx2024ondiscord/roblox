@@ -1,0 +1,66 @@
+local player = game.Players.LocalPlayer
+local camera = game.Workspace.CurrentCamera
+
+local hitboxSize = Vector3.new(60, 60, 150)
+local isHitboxActive = false  -- Tracks whether the hitbox is enabled
+local hitboxConnection  -- Connection to control the hitbox update loop
+
+-- Function to maintain hitbox size
+local function maintainHitboxSize(character)
+    local hitbox = character:FindFirstChild("Hitbox")
+    local tackleHitbox = character:FindFirstChild("TackleHitbox")
+
+    if hitbox then
+        hitbox.Size = hitboxSize
+
+        hitboxConnection = game:GetService("RunService").Stepped:Connect(function()
+            if not isHitboxActive then return end  -- Only run if hitbox is enabled
+
+            local playerPosition = character.HumanoidRootPart.Position
+            local cameraDirection = camera.CFrame.LookVector
+
+            hitbox.Position = playerPosition + (cameraDirection * (hitboxSize.Z / 2))
+
+            for _, target in pairs(game.Players:GetPlayers()) do
+                if target ~= player and target.Character then
+                    local targetPosition = target.Character.HumanoidRootPart.Position
+                    if (targetPosition - hitbox.Position).Magnitude <= (hitbox.Size.X / 2) then
+                        tackleHitbox.Position = targetPosition + Vector3.new(0, 5, 0)
+                        break
+                    end
+                end
+            end
+        end)
+    end
+end
+
+-- Function to enable hitbox
+local function enableHitbox()
+    isHitboxActive = true
+    if player.Character then
+        maintainHitboxSize(player.Character)
+    end
+    print("Hitbox enabled!")
+end
+
+-- Function to disable hitbox
+local function disableHitbox()
+    isHitboxActive = false
+    if hitboxConnection then
+        hitboxConnection:Disconnect()  -- Stop the hitbox update loop
+    end
+    print("Hitbox disabled!")
+end
+
+-- Connect to character added event
+player.CharacterAdded:Connect(function(character)
+    character:WaitForChild("HumanoidRootPart")
+    if isHitboxActive then
+        maintainHitboxSize(character)
+    end
+end)
+
+-- Maintain hitbox if the character is already loaded
+if player.Character then
+    maintainHitboxSize(player.Character)
+end
