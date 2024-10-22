@@ -1,6 +1,6 @@
 local player = game.Players.LocalPlayer
 local originalSize = Vector3.new(2.5703413486480713, 5.7297587394714355, 2.063832998275757)
-local bigSize = Vector3.new(originalSize.X + 50, originalSize.Y + 50, originalSize.Z + 100)
+local newSize = Vector3.new(originalSize.X + 50, originalSize.Y + 50, originalSize.Z + 100)
 
 local function maintainHitboxSize(character, size)
     local tackleHitbox = character:FindFirstChild("TackleHitbox")
