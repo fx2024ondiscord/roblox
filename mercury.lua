@@ -56,9 +56,30 @@ local Library = {
 			StrongText = Color3.fromHSV(0, 0, 1),        
 			WeakText = Color3.fromHSV(0, 0, 172/255)
 		},
-		Vaporwave = {},
-		OperaGX = {},
-		VisualStudio = {}
+		Vaporwave = {
+			Main = Color3.fromRGB(255, 105, 180),
+			Secondary = Color3.fromRGB(0, 255, 255),
+			Tertiary = Color3.fromRGB(255, 255, 0),
+
+			StrongText = Color3.fromHSV(0, 0, 1),        
+			WeakText = Color3.fromHSV(0, 0, 172/255)
+		},
+		OperaGX = {
+			Main = Color3.fromRGB(255, 0, 0),
+			Secondary = Color3.fromRGB(0, 0, 0),
+			Tertiary = Color3.fromRGB(255, 255, 255),
+
+			StrongText = Color3.fromHSV(0, 0, 1),        
+			WeakText = Color3.fromHSV(0, 0, 172/255)
+		},
+		VisualStudio = {
+			Main = Color3.fromRGB(0, 122, 204),
+			Secondary = Color3.fromRGB(45, 45, 48),
+			Tertiary = Color3.fromRGB(239, 239, 239),
+
+			StrongText = Color3.fromHSV(0, 0, 1),        
+			WeakText = Color3.fromHSV(0, 0, 172/255)
+		}
 	},
 	ColorPickerStyles = {
 		Legacy = 0,
@@ -76,11 +97,10 @@ local Library = {
 	WelcomeText = nil,
 	DisplayName = nil,
 	DragSpeed = 0.06,
-	LockDragging = true,
-	ToggleKey = Enum.KeyCode.V,
+	LockDragging = false,
+	ToggleKey = Enum.KeyCode.Home,
 	UrlLabel = nil,
 	Url = nil
-
 }
 Library.__index = Library
 
@@ -119,6 +139,69 @@ function Library:change_theme(toTheme)
 		end
 	end
 end
+
+function Library:lighten(color, percent)
+	local h, s, v = color:ToHSV()
+	v = math.clamp(v + percent / 100, 0, 1)
+	return Color3.fromHSV(h, s, v)
+end
+
+function Library:darken(color, percent)
+	local h, s, v = color:ToHSV()
+	v = math.clamp(v - percent / 100, 0, 1)
+	return Color3.fromHSV(h, s, v)
+end
+
+function Library:tween(obj, properties)
+	local tween = game:GetService("TweenService"):Create(obj, GlobalTweenInfo, properties)
+	tween:Play()
+end
+
+function Library:apply_theme(theme)
+	for color, objects in next, Library.ThemeObjects do
+		local themeColor = theme[color]
+		for _, obj in next, objects do
+			local element, property = obj[1], obj[2]
+			self:tween(element, {[property] = themeColor})
+		end
+	end
+end
+
+function Library:add_theme_object(theme, element, property)
+	table.insert(Library.ThemeObjects[theme], {element, property})
+end
+
+function Library:create_gui()
+	local ScreenGui = Instance.new("ScreenGui")
+	ScreenGui.Name = "LibraryGUI"
+	ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+	local Frame = Instance.new("Frame")
+	Frame.Size = UDim2.new(0, 600, 0, 400)
+	Frame.Position = UDim2.new(0.5, -300, 0.5, -200)
+	Frame.BackgroundColor3 = Library.CurrentTheme.Main
+	Frame.Parent = ScreenGui
+
+	local Title = Instance.new("TextLabel")
+	Title.Size = UDim2.new(1, 0, 0, 50)
+	Title.BackgroundTransparency = 1
+	Title.Text = "Library GUI"
+	Title.TextColor3 = Library.CurrentTheme.StrongText
+	Title.Font = Enum.Font.SourceSansBold
+	Title.TextSize = 24
+	Title.Parent = Frame
+
+	Library:add_theme_object("Main", Frame, "BackgroundColor3")
+	Library:add_theme_object("StrongText", Title, "TextColor3")
+
+	return ScreenGui
+end
+
+Library.CurrentTheme = Library.Themes.Dark
+Library:create_gui()
+
+return Library
+
 
 function Library:object(class, properties)
 	local localObject = Instance.new(class)
