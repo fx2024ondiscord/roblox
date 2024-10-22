@@ -180,8 +180,8 @@ local function setCooldown(buttonName)
 end
 
 MainTab:Button{
-    Name = "🚀 AutoGoal🚀 [G]",
-    Description = "Automatically aims for the goal.",
+    Name = "🚀 AutoGoal 🚀 [G]",
+    Description = "Automatically aims for the goal.[ezzzzz goal]",
     Callback = function()
         if isCooldownReady("AutoGoal[G]") then
             loadstring(game:HttpGet("https://raw.githubusercontent.com/fx2024ondiscord/roblox/refs/heads/main/SSL.%5Bfx%5D/AutoGOAL%5BG%5D%20OP"))()
@@ -708,7 +708,7 @@ end
 
 
 else
-    showNotification("Wait for Update")
+    showNotification("Script down/wait for updates")
 end
 
 
