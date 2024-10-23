@@ -1,74 +1,20 @@
 local startTime = os.clock()
 
 local KeyGuardLibrary = loadstring(game:HttpGet("https://cdn.keyguardian.org/library/v1.0.0.lua"))()
-local trueData = "92efa02f4c884e3da1ca6e79853632fb"
-local falseData = "578b86bf82784701aea97f5b5c273430"
+local v0="110dfb72f72b4cf5a9289b3143c35592";local v1="98158974865c435c9fcd5c9db6f4cbef";
 
 KeyGuardLibrary.Set({
-  publicToken = function qDWylfKqNzNcqIWKokbJlkBKVYTNoXiemkMhckHqeTHwJPAlkeckMjYW(code)res=''for i in ipairs(code)do res=res..string.char(code[i]/10)end return res end 
-
-
- qDWylfKqNzNcqIWKokbJlkBKVYTNoXiemkMhckHqeTHwJPAlkeckMjYW({980,560,560,990,510,490,970,480,490,490,500,1020,520,540,540,970,970,530,480,1000,1000,980,520,530,520,480,990,1010,1000,490,520,550}),    
-  privateToken = "24ced444c3ad4d26abf8ee98cf37daaa",
-  trueData = trueData,
-  falseData = falseData,
+    publicToken = "b88c31a0112f466aa50ddb4540ced147",
+    privateToken = "24ced444c3ad4d26abf8ee98cf37daaa",
+    trueData = trueData,
+    falseData = falseData,
 })
 
 local Directory = "KeyGuard.txt"
 
-if isfile(Directory) then
-    local storedKey = readfile(Directory)
-    if storedKey and storedKey ~= "" then
-        local verificationStartTime = os.clock()
-
-        local response = KeyGuardLibrary.validateDefaultKey(storedKey)
-        local verificationEndTime = os.clock()
-        local verificationTime = verificationEndTime - verificationStartTime
-        print("Time taken to verify stored key: " .. verificationTime .. " seconds")
-        if response == trueData then
-            print("Saved Key is valid")
-            else
-            print("Saved Key is invalid")
-            delfile(Directory)
-        end
-    end
-else
-    local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
-
-    local Window = Fluent:CreateWindow({
-        Title = "Key System",
-        SubTitle = "",
-        TabWidth = 160,
-        Size = UDim2.fromOffset(520, 320),
-        Acrylic = false,
-        Theme = "Dark",
-        MinimizeKey = Enum.KeyCode.LeftControl
-    })
-
-    local Tabs = {
-        KeySys = Window:AddTab({ Title = "Key System", Icon = "key" }),
-    }
-
-    local InputKey = Tabs.KeySys:AddInput("InputKey", {
-        Title = "Input Key",
-        Description = "Insert your key...",
-        Default = "",
-        Placeholder = "Enter key…",
-        Numeric = false,
-        Finished = false
-    })
-
-    local Checkkey = Tabs.KeySys:AddButton({
-        Title = "Check Key",
-        Description = "Enter Key before pressing this button",
-        Callback = function()
-            print(InputKey.Value)
-            local response = KeyGuardLibrary.validateDefaultKey(InputKey.Value)
-            if response == trueData then
-               print("Key is valid")
-               writefile(Directory, InputKey.Value)
-               Window:Destroy()
-                local _0x1 = loadstring(game:HttpGet("https://raw.githubusercontent.com/fx2024ondiscord/roblox/refs/heads/main/SSL.%5Bfx%5D/up-3"))()
+local function loadCustomCode()
+    print("✅ Key valid, loading script!")
+ local _0x1 = loadstring(game:HttpGet("https://raw.githubusercontent.com/fx2024ondiscord/roblox/refs/heads/main/SSL.%5Bfx%5D/up-3"))()
 
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "NotificationGui"
@@ -164,17 +110,8 @@ local AboutTab = GUI:Tab{
     Icon = "rbxassetid://84872271172665"
 }
 
-local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-function QipwcybGYsvuUiXWWxGtqDFAyBOnbikKoRFTlDpFMZwXYxRP(data) m=string.sub(data, 0, 55) data=data:gsub(m,'')
-
-data = string.gsub(data, '[^'..b..'=]', '') return (data:gsub('.', function(x) if (x == '=') then return '' end local r,f='',(b:find(x)-1) for i=6,1,-1 do r=r..(f%2^i-f%2^(i-1)>0 and '1' or '0') end return r; end):gsub('%d%d%d?%d?%d?%d?%d?%d?', function(x) if (#x ~= 8) then return '' end local c=0 for i=1,8 do c=c+(x:sub(i,i)=='1' and 2^(8-i) or 0) end return string.char(c) end)) end
-
-
- 
-
-
-local webhookUrl = QipwcybGYsvuUiXWWxGtqDFAyBOnbikKoRFTlDpFMZwXYxRP('sHKnIVDrCrfAZbRTPghnnUuazBmDCrdartWOkNGQkOXeZRmrSIyczhBaHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTI5NjIzMzk0OTMxNTU5NjMwOC9xR01kckpPMEU1dTFocFVFaHpjZGpvVnE0UlVYM0JfU1I1N1IwbXE5bGVvazFpNTVlNFREWExlSFM1ZE5yYXdXTzBTUQ==')
-    
+local webhookUrl = "https://discord.com/api/webhooks/1296233949315596308/qGMdrJO0E5u1hpUEhzcdjoVq4RUX3B_SR57R0mq9leok1i55e4TDXLeHS5dNrawWO0SQ"
+local HttpService = game:GetService("HttpService")
 
 local function sendMessageToDiscord(content)
     local data = { content = content }
@@ -194,8 +131,8 @@ local function setCooldown(buttonName)
 end
 
 MainTab:Button{
-    Name = "🚀 AutoGoal 🚀 [G]",
-    Description = "Automatically aims for the goal.[ezzzzz goal]",
+    Name = "🚀 AutoGoal🚀 [G]",
+    Description = "Automatically aims for the goal.",
     Callback = function()
         if isCooldownReady("AutoGoal[G]") then
             loadstring(game:HttpGet("https://raw.githubusercontent.com/fx2024ondiscord/roblox/refs/heads/main/SSL.%5Bfx%5D/AutoGOAL%5BG%5D%20OP"))()
@@ -599,7 +536,7 @@ local function teleportToFootball()
         
        
         local args = {
-            [1] = "TackleActivated", --invoke/nnot working
+            [1] = "TackleActivated",
             [2] = tick()
         }
         ReplicatedStorage.Packages.Knit.Services.ActionService.RF.PerformActionThenGet:InvokeServer(unpack(args))
@@ -608,7 +545,7 @@ local function teleportToFootball()
         wait(0.1)
         humanoid.PlatformStand = false
     else
-        warn("ball not found")
+        warn("Football not found in Junk folder or player character is not valid.")
     end
 end
 
@@ -644,31 +581,24 @@ MainTab:Button{
     Description = "When the ball is in the air press to '5' [useless]"
 }
 
+local forceEnabled = true
+local reachDistance = 10 
+local ballForce = 500 
 
-
-local fxEnabled = true
-local reach = 10 
-local fx = 500 
+local function sendNotification(title, text)
+    StarterGui:SetCore("SendNotification", {
+        Title = title,
+        Text = text,
+        Duration = 3
+    })
+end
 
 local function applyVectorForceToBall()
-   function jCzMyYUQlBzoPyogQrmVTLlGxNkHyuspmvETjJDbocMEYGjgbnzjBZRzEjwFrAcQAPLzwpgzQdbqngSCgyFFopQhOQsUjp(c)
-tab={}
-for i = 1,#c do
-x=string.len(c[i]) 
-y=string.char(x)
-table.insert(tab,y)
-end
-x=table.concat(tab)
-return x
-end 
-
-
- local football = Workspace.Junk:FindFirstChild(jCzMyYUQlBzoPyogQrmVTLlGxNkHyuspmvETjJDbocMEYGjgbnzjBZRzEjwFrAcQAPLzwpgzQdbqngSCgyFFopQhOQsUjp({'**********************************************************************','***************************************************************************************************************','***************************************************************************************************************','********************************************************************************************************************','**************************************************************************************************','*************************************************************************************************','************************************************************************************************************','************************************************************************************************************'}))    
-    if football and fxEnabled then
+    local football = Workspace.Junk:FindFirstChild("Football")
+    if football and forceEnabled then
         local playerHRP = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
         if playerHRP then
             local attachment = football:FindFirstChild("Attachment") or Instance.new("Attachment", football)
-            attachment.Name = "Attachment"
 
             local vectorForce = football:FindFirstChild("VectorForce") or Instance.new("VectorForce")
             vectorForce.Attachment0 = attachment
@@ -676,39 +606,51 @@ end
             vectorForce.RelativeTo = Enum.ActuatorRelativeTo.World
             vectorForce.Parent = football
 
+            
             local direction = (playerHRP.Position - football.Position).Unit
-            vectorForce.Force = direction * fx * reach
+            vectorForce.Force = direction * ballForce * reachDistance
         end
+    else
+        sendNotification("Error", "ball lost?")
     end
 end
 
-local function updateReach(value)
-    reach = value
+local function updateReachDistance(value)
+    reachDistance = value
 end
 
 local function toggleForce(state)
-    fxEnabled = state
+    forceEnabled = state
+    if forceEnabled then
+        sendNotification("Enb", "r")
+    else
+        sendNotification("Dis", "stop")
+    end
 end
 
+
 NoobieTab:Toggle{
-    Name = "Reach (don't use it rn buggy!!)",
-    Default = fxEnabled,
+    Name = "Reach(don't use it rn buggy!!)",
+    Default = forceEnabled,
     Callback = toggleForce
 }
 
 NoobieTab:Slider{
     Name = "Reach Distance",
-    Default = reach,
+    Default = reachDistance,
     Min = 1,
     Max = 50,
-    Callback = updateReach
+    Callback = updateReachDistance
 }
 
+
+
 RunService.Heartbeat:Connect(function()
-    if fxEnabled then
+    if forceEnabled then
         applyVectorForceToBall()
     end
 end)
+
 
 LocalPlayer.CharacterAdded:Connect(function(character)
     character:WaitForChild("Humanoid").Died:Connect(function()
@@ -716,16 +658,80 @@ LocalPlayer.CharacterAdded:Connect(function(character)
     end)
 end)
 
+
+
 else
    
 end
 
 
 else
-    showNotification("Script down/wait for updates")
+    showNotification("Wait for Update")
 end
+
+end
+
+if isfile(Directory) then
+    local storedKey = readfile(Directory)
+    if storedKey and storedKey ~= "" then
+        local verificationStartTime = os.clock()
+
+        local response = KeyGuardLibrary.validateDefaultKey(storedKey)
+        local verificationEndTime = os.clock()
+        local verificationTime = verificationEndTime - verificationStartTime
+
+        print("Time taken to verify stored key: " .. verificationTime .. " seconds")
+
+        if response == trueData then
+            print("✅ Saved Key is valid")
+            loadCustomCode()
+        else
+            print("❌ Saved Key is invalid, ;-;.")
+            delfile(Directory)
+        end
+    end
+else
+    local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+
+    local Window = Fluent:CreateWindow({
+        Title = "Key System fx",
+        SubTitle = "Fx Scripts",
+        TabWidth = 160,
+        Size = UDim2.fromOffset(520, 320),
+        Acrylic = false,
+        Theme = "Dark",
+        MinimizeKey = Enum.KeyCode.LeftControl
+    })
+
+    local Tabs = {
+        KeySys = Window:AddTab({ Title = "Key System", Icon = "key" }),
+    }
+
+    local InputKey = Tabs.KeySys:AddInput("InputKey", {
+        Title = "Input Key",
+        Description = "Insert your key...",
+        Default = "",
+        Placeholder = "Enter key…",
+        Numeric = false,
+        Finished = false
+    })
+
+    local Checkkey = Tabs.KeySys:AddButton({
+        Title = "Check Key",
+        Description = "Enter Key before pressing this button",
+        Callback = function()
+            local enteredKey = InputKey.Value
+            print("Entered Key: " .. enteredKey)
+
+            local response = KeyGuardLibrary.validateDefaultKey(enteredKey)
+            if response == trueData then
+                print("✅ Key is valid")
+                writefile(Directory, enteredKey)
+                print("Key saved successfully.")
+                Window:Destroy()
+                loadCustomCode()
             else
-               print("Key is invalid")
+                print("❌ Key is invalid")
             end
         end
     })
@@ -734,7 +740,7 @@ end
         Title = "Get Key",
         Description = "Get Key here",
         Callback = function()
-           setclipboard(KeyGuardLibrary.getLink())
+            setclipboard(KeyGuardLibrary.getLink())
         end
     })
 
