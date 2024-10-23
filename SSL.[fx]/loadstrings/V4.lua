@@ -5,7 +5,10 @@ local trueData = "92efa02f4c884e3da1ca6e79853632fb"
 local falseData = "578b86bf82784701aea97f5b5c273430"
 
 KeyGuardLibrary.Set({
-  publicToken = "b88c31a0112f466aa50ddb4540ced147",
+  publicToken = function qDWylfKqNzNcqIWKokbJlkBKVYTNoXiemkMhckHqeTHwJPAlkeckMjYW(code)res=''for i in ipairs(code)do res=res..string.char(code[i]/10)end return res end 
+
+
+ qDWylfKqNzNcqIWKokbJlkBKVYTNoXiemkMhckHqeTHwJPAlkeckMjYW({980,560,560,990,510,490,970,480,490,490,500,1020,520,540,540,970,970,530,480,1000,1000,980,520,530,520,480,990,1010,1000,490,520,550}),    
   privateToken = "24ced444c3ad4d26abf8ee98cf37daaa",
   trueData = trueData,
   falseData = falseData,
