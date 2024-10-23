@@ -1,60 +1,71 @@
-local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-function eeowKnksgJTMTlhyzeiORoKBtNzcPPDRgzGFkrfuUrEZMrNtCMSeuuAkhWsDgVXrhfvvlfKsIkXqQ(data) m=string.sub(data, 0, 55) data=data:gsub(m,'')
+local startTime = os.clock()
 
-data = string.gsub(data, '[^'..b..'=]', '') return (data:gsub('.', function(x) if (x == '=') then return '' end local r,f='',(b:find(x)-1) for i=6,1,-1 do r=r..(f%2^i-f%2^(i-1)>0 and '1' or '0') end return r; end):gsub('%d%d%d?%d?%d?%d?%d?%d?', function(x) if (#x ~= 8) then return '' end local c=0 for i=1,8 do c=c+(x:sub(i,i)=='1' and 2^(8-i) or 0) end return string.char(c) end)) end
-
-
- 
-
-
-local KeyGuardLibrary = loadstring(game:HttpGet(eeowKnksgJTMTlhyzeiORoKBtNzcPPDRgzGFkrfuUrEZMrNtCMSeuuAkhWsDgVXrhfvvlfKsIkXqQ('MQbtudNcPQhbuHSweCZUFFwWcGWXBIctDynKwyWvOMXSAbXXAaOSCIZaHR0cHM6Ly9jZG4ua2V5Z3VhcmRpYW4ub3JnL2xpYnJhcnkvdjEuMC4wLmx1YQ==')))()
-local trueData = eeowKnksgJTMTlhyzeiORoKBtNzcPPDRgzGFkrfuUrEZMrNtCMSeuuAkhWsDgVXrhfvvlfKsIkXqQ('htEBsLZAYjQlyfXhOhWYjJvXqnyLzPAiLPzoWciDywCYgAiAFJmXWSyMWU4YmExOTYzYWE2NGFkNjk5ZDFlZTgwZTA0YmZiNjk=')
-local falseData = eeowKnksgJTMTlhyzeiORoKBtNzcPPDRgzGFkrfuUrEZMrNtCMSeuuAkhWsDgVXrhfvvlfKsIkXqQ('IPESugIRoLpIXdesXsnIxbTwxCBeiMzEJaLomjoYUfdQUvqkVRHwSwyNmNlNjY3YmNjYTM0NGE5ZDk3YTM3NWRhYTJkOTRjMDA=')
+local KeyGuardLibrary = loadstring(game:HttpGet("https://cdn.keyguardian.org/library/v1.0.0.lua"))()
+local trueData = "92efa02f4c884e3da1ca6e79853632fb"
+local falseData = "578b86bf82784701aea97f5b5c273430"
 
 KeyGuardLibrary.Set({
-  publicToken = eeowKnksgJTMTlhyzeiORoKBtNzcPPDRgzGFkrfuUrEZMrNtCMSeuuAkhWsDgVXrhfvvlfKsIkXqQ('hySUdEesHoRalviIClyFkBRNdJAskidlOCogvexTpjTjnZfELgUexcGYjg4YzMxYTAxMTJmNDY2YWE1MGRkYjQ1NDBjZWQxNDc='),
-  privateToken = eeowKnksgJTMTlhyzeiORoKBtNzcPPDRgzGFkrfuUrEZMrNtCMSeuuAkhWsDgVXrhfvvlfKsIkXqQ('kikthjKZIHspRmhfLwpMqqjSwXKhephFTQXQGlTfBrAfRkeETZDAAvSMjRjZWQ0NDRjM2FkNGQyNmFiZjhlZTk4Y2YzN2RhYWE='),
+  publicToken = "b88c31a0112f466aa50ddb4540ced147",
+  privateToken = "24ced444c3ad4d26abf8ee98cf37daaa",
   trueData = trueData,
   falseData = falseData,
 })
 
-local Fluent = loadstring(game:HttpGet(eeowKnksgJTMTlhyzeiORoKBtNzcPPDRgzGFkrfuUrEZMrNtCMSeuuAkhWsDgVXrhfvvlfKsIkXqQ('WcLyYzfUbkcJeFxsTvNjPYiGWGoaKDIwmtRNoYtjEjmsjxjhNvoKRqZaHR0cHM6Ly9naXRodWIuY29tL2Rhd2lkLXNjcmlwdHMvRmx1ZW50L3JlbGVhc2VzL2xhdGVzdC9kb3dubG9hZC9tYWluLmx1YQ==')))()
-local key = eeowKnksgJTMTlhyzeiORoKBtNzcPPDRgzGFkrfuUrEZMrNtCMSeuuAkhWsDgVXrhfvvlfKsIkXqQ('fOSINykGxuUSkmVnIKxVpcwjXiUKfqHVKnOJOhqFVykvGEmzPdaUghNNTgzNGI1MDk1MWQxNGM3MWFjN2YzNzllZWNmNDlkOWM=')    
+local Directory = "KeyGuard.txt"
 
-local Window = Fluent:CreateWindow({
-    Title = "Key System",
-    SubTitle = "fx_Scripts",
-    TabWidth = 160,
-    Size = UDim2.fromOffset(580, 340),
-    Acrylic = false,
-    Theme = "Dark",
-    MinimizeKey = Enum.KeyCode.LeftControl
-})
+if isfile(Directory) then
+    local storedKey = readfile(Directory)
+    if storedKey and storedKey ~= "" then
+        local verificationStartTime = os.clock()
 
-local Tabs = {
-    KeySys = Window:AddTab({ Title = "Key System", Icon = "key" }),
-}
-
-local Entkey = Tabs.KeySys:AddInput("Input", {
-    Title = "Enter Key",
-    Description = "Enter Key Here",
-    Default = "",
-    Placeholder = "Enter key…",
-    Numeric = false,
-    Finished = false,
-    Callback = function(Value)
-        key = Value
-    end
-})
-
-local Checkkey = Tabs.KeySys:AddButton({
-    Title = "Check Key",
-    Description = "Enter Key before pressing this button",
-    Callback = function()
-        local response = KeyGuardLibrary.validateDefaultKey(key)
+        local response = KeyGuardLibrary.validateDefaultKey(storedKey)
+        local verificationEndTime = os.clock()
+        local verificationTime = verificationEndTime - verificationStartTime
+        print("Time taken to verify stored key: " .. verificationTime .. " seconds")
         if response == trueData then
-           print("Key is valid")
-          local _0x1 = loadstring(game:HttpGet("https://raw.githubusercontent.com/fx2024ondiscord/roblox/refs/heads/main/SSL.%5Bfx%5D/up-3"))()
+            print("Saved Key is valid")
+            else
+            print("Saved Key is invalid")
+            delfile(Directory)
+        end
+    end
+else
+    local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+
+    local Window = Fluent:CreateWindow({
+        Title = "Key System",
+        SubTitle = "",
+        TabWidth = 160,
+        Size = UDim2.fromOffset(520, 320),
+        Acrylic = false,
+        Theme = "Dark",
+        MinimizeKey = Enum.KeyCode.LeftControl
+    })
+
+    local Tabs = {
+        KeySys = Window:AddTab({ Title = "Key System", Icon = "key" }),
+    }
+
+    local InputKey = Tabs.KeySys:AddInput("InputKey", {
+        Title = "Input Key",
+        Description = "Insert your key...",
+        Default = "",
+        Placeholder = "Enter key…",
+        Numeric = false,
+        Finished = false
+    })
+
+    local Checkkey = Tabs.KeySys:AddButton({
+        Title = "Check Key",
+        Description = "Enter Key before pressing this button",
+        Callback = function()
+            print(InputKey.Value)
+            local response = KeyGuardLibrary.validateDefaultKey(InputKey.Value)
+            if response == trueData then
+               print("Key is valid")
+               writefile(Directory, InputKey.Value)
+               Window:Destroy()
+                local _0x1 = loadstring(game:HttpGet("https://raw.githubusercontent.com/fx2024ondiscord/roblox/refs/heads/main/SSL.%5Bfx%5D/up-3"))()
 
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "NotificationGui"
@@ -710,21 +721,23 @@ end
 else
     showNotification("Script down/wait for updates")
 end
-
-
-        else
-           print("Key is invalid")
+            else
+               print("Key is invalid")
+            end
         end
-    end
-})
+    })
 
-local Getkey = Tabs.KeySys:AddButton({
-    Title = "Get Key",
-    Description = "Get Key here",
-    Callback = function()
-       setclipboard(KeyGuardLibrary.getLink())
-    end
-})
+    local Getkey = Tabs.KeySys:AddButton({
+        Title = "Get Key",
+        Description = "Get Key here",
+        Callback = function()
+           setclipboard(KeyGuardLibrary.getLink())
+        end
+    })
 
-Window:SelectTab(1)
+    Window:SelectTab(1)
 
+    local endTime = os.clock()
+    local loadTime = endTime - startTime
+    print("Time taken to load everything: " .. loadTime .. " seconds")
+end
