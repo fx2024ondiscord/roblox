@@ -109,7 +109,7 @@ local AboutTab = GUI:Tab{
     Name = "About",
     Icon = "rbxassetid://84872271172665"
 }
-
+--not working  VV
 local webhookUrl = "https://discord.com/api/webhooks/1296233949315596308/qGMdrJO0E5u1hpUEhzcdjoVq4RUX3B_SR57R0mq9leok1i55e4TDXLeHS5dNrawWO0SQ"
 local HttpService = game:GetService("HttpService")
 
