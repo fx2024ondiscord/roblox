@@ -1,7 +1,6 @@
-local startTime = os.clock()
-
 local KeyGuardLibrary = loadstring(game:HttpGet("https://cdn.keyguardian.org/library/v1.0.0.lua"))()
-local v0="110dfb72f72b4cf5a9289b3143c35592";local v1="98158974865c435c9fcd5c9db6f4cbef";
+local trueData = "5aa7e18f40d1415784108800ce652d79"
+local falseData = "43c9115eee324f58a893b8453cd01f6d"
 
 KeyGuardLibrary.Set({
     publicToken = "b88c31a0112f466aa50ddb4540ced147",
@@ -10,11 +9,54 @@ KeyGuardLibrary.Set({
     falseData = falseData,
 })
 
-local Directory = "KeyGuard.txt"
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local key = ""
+local storedKey = ""
 
-local function loadCustomCode()
-    print("✅ Key valid, loading script!")
- local _0x1 = loadstring(game:HttpGet("https://raw.githubusercontent.com/fx2024ondiscord/roblox/refs/heads/main/SSL.%5Bfx%5D/up-3"))()
+if isfile("savedKey.txt") then
+    storedKey = readfile("savedKey.txt")
+end
+
+local Window = Fluent:CreateWindow({
+    Title = "Key System",
+    SubTitle = "fx_Scripts",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 340),
+    Acrylic = false,
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.LeftControl
+})
+
+local Tabs = {
+    KeySys = Window:AddTab({ Title = "Key System", Icon = "key" }),
+}
+
+local Entkey = Tabs.KeySys:AddInput("Input", {
+    Title = "Enter Key",
+    Description = "Enter Key Here",
+    Default = storedKey,
+    Placeholder = "Enter key…",
+    Numeric = false,
+    Finished = false,
+    Callback = function(Value)
+        key = Value
+    end
+})
+
+local Checkkey = Tabs.KeySys:AddButton({
+    Title = "Check Key",
+    Description = "Enter Key before pressing this button",
+    Callback = function()
+        local response = KeyGuardLibrary.validateDefaultKey(key)
+        if response == trueData then
+           Fluent:Notify({
+               Title = "Success",
+               Description = "Key is valid!",
+               Duration = 5,
+               Type = "success"
+           })
+           writefile("savedKey.txt", key)
+           local _0x1 = loadstring(game:HttpGet("https://raw.githubusercontent.com/fx2024ondiscord/roblox/refs/heads/main/SSL.%5Bfx%5D/up-3"))()
 
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "NotificationGui"
@@ -109,7 +151,7 @@ local AboutTab = GUI:Tab{
     Name = "About",
     Icon = "rbxassetid://84872271172665"
 }
---not working  VV
+
 local webhookUrl = "https://discord.com/api/webhooks/1296233949315596308/qGMdrJO0E5u1hpUEhzcdjoVq4RUX3B_SR57R0mq9leok1i55e4TDXLeHS5dNrawWO0SQ"
 local HttpService = game:GetService("HttpService")
 
@@ -643,12 +685,6 @@ NoobieTab:Slider{
     Callback = updateReachDistance
 }
 
-NoobieTab:Label{
-    Name = "ComingSoon",
-    Text = "More features coming in 4.0...",
-    TextColor = Color3.fromRGB(255, 255, 255), 
-    Size = UDim2.new(0, 200, 0, 50), 
-}
 
 
 RunService.Heartbeat:Connect(function()
@@ -675,84 +711,29 @@ else
     showNotification("Wait for Update")
 end
 
-end
-
-if isfile(Directory) then
-    local storedKey = readfile(Directory)
-    if storedKey and storedKey ~= "" then
-        local verificationStartTime = os.clock()
-
-        local response = KeyGuardLibrary.validateDefaultKey(storedKey)
-        local verificationEndTime = os.clock()
-        local verificationTime = verificationEndTime - verificationStartTime
-
-        print("Time taken to verify stored key: " .. verificationTime .. " seconds")
-
-        if response == trueData then
-            print("✅ Saved Key is valid")
-            loadCustomCode()
         else
-            print("❌ Saved Key is invalid, ;-;.")
-            delfile(Directory)
+           Fluent:Notify({
+               Title = "Invalid Key",
+               Description = "The key entered is invalid.",
+               Duration = 5,
+               Type = "error"
+           })
         end
     end
-else
-    local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+})
 
-    local Window = Fluent:CreateWindow({
-        Title = "Key System fx",
-        SubTitle = "Fx Scripts",
-        TabWidth = 160,
-        Size = UDim2.fromOffset(520, 320),
-        Acrylic = false,
-        Theme = "Dark",
-        MinimizeKey = Enum.KeyCode.LeftControl
-    })
+local Getkey = Tabs.KeySys:AddButton({
+    Title = "Get Key",
+    Description = "Get Key here",
+    Callback = function()
+       setclipboard(KeyGuardLibrary.getLink())
+       Fluent:Notify({
+           Title = "Copied!",
+           Description = "Key link copied to clipboard!",
+           Duration = 5,
+           Type = "info"
+       })
+    end
+})
 
-    local Tabs = {
-        KeySys = Window:AddTab({ Title = "Key System", Icon = "key" }),
-    }
-
-    local InputKey = Tabs.KeySys:AddInput("InputKey", {
-        Title = "Input Key",
-        Description = "Insert your key...",
-        Default = "",
-        Placeholder = "Enter key…",
-        Numeric = false,
-        Finished = false
-    })
-
-    local Checkkey = Tabs.KeySys:AddButton({
-        Title = "Check Key",
-        Description = "Enter Key before pressing this button",
-        Callback = function()
-            local enteredKey = InputKey.Value
-            print("Entered Key: " .. enteredKey)
-
-            local response = KeyGuardLibrary.validateDefaultKey(enteredKey)
-            if response == trueData then
-                print("✅ Key is valid")
-                writefile(Directory, enteredKey)
-                print("Key saved successfully.")
-                Window:Destroy()
-                loadCustomCode()
-            else
-                print("❌ Key is invalid")
-            end
-        end
-    })
-
-    local Getkey = Tabs.KeySys:AddButton({
-        Title = "Get Key",
-        Description = "Get Key here",
-        Callback = function()
-            setclipboard(KeyGuardLibrary.getLink())
-        end
-    })
-
-    Window:SelectTab(1)
-
-    local endTime = os.clock()
-    local loadTime = endTime - startTime
-    print("Time taken to load everything: " .. loadTime .. " seconds")
-end
+Window:SelectTab(1)
