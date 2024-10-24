@@ -643,6 +643,12 @@ NoobieTab:Slider{
     Callback = updateReachDistance
 }
 
+NoobieTab:Label{
+    Name = "ComingSoon",
+    Text = "More features coming in 4.0...",
+    TextColor = Color3.fromRGB(255, 255, 255), 
+    Size = UDim2.new(0, 200, 0, 50), 
+}
 
 
 RunService.Heartbeat:Connect(function()
