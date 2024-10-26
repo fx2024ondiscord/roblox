@@ -10,7 +10,7 @@ KeyGuardLibrary.Set({
 })
 
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
-local key = ""
+local key = "5834b50951d14c71ac7f379eecf49d9c"
 local storedKey = ""
 
 if isfile("savedKey.txt") then
