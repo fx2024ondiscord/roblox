@@ -104,7 +104,7 @@ local Library = {
     WelcomeText = "Welcome to the Advanced GUI Library!",
     DisplayName = "User",
     DragSpeed = 0.06,
-    LockDragging = false,
+    LockDragging = true,
     ToggleKey = Enum.KeyCode.Home,
     UrlLabel = "Visit our GitHub",
     Url = "https://github.com/deeeity/mercury-lib",
@@ -142,6 +142,84 @@ local Library = {
         end
     end
 }
+
+-- Example usage
+Library:SwitchTheme("Aqua")
+Library:SaveSettings()
+Library:LoadSettings()
+
+Library.__index = Library
+
+local selectedTab
+
+Library._promptExists = false
+Library._colorPickerExists = false
+
+local GlobalTweenInfo = TweenInfo.new(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
+
+function Library:set_defaults(defaults, options)
+    defaults = defaults or {}
+    options = options or {}
+    for option, value in next, options do
+        defaults[option] = value
+    end
+    return defaults
+end
+
+function Library:change_theme(toTheme)
+    Library.CurrentTheme = toTheme
+    local c = self:lighten(toTheme.Tertiary, 20)
+    Library.DisplayName.Text = "Welcome, <font color='rgb(" ..  math.floor(c.R*255) .. "," .. math.floor(c.G*255) .. "," .. math.floor(c.B*255) .. ")'> <b>" .. LocalPlayer.DisplayName .. "</b> </font>"
+    for color, objects in next, Library.ThemeObjects do
+        local themeColor = Library.CurrentTheme[color]
+        for _, obj in next, objects do
+            local element, property, theme, colorAlter = obj[1], obj[2], obj[3], obj[4] or 0
+            local themeColor = Library.CurrentTheme[theme]
+            local modifiedColor = themeColor
+            if colorAlter < 0 then
+                modifiedColor = Library:darken(themeColor, -1 * colorAlter)
+            elseif colorAlter > 0 then
+                modifiedColor = Library:lighten(themeColor, colorAlter)
+            end
+            element:tween{[property] = modifiedColor}
+        end
+    end
+end
+
+-- Function to lighten a color
+function Library:lighten(color, percent)
+    local r, g, b = color.R, color.G, color.B
+    r = r + (1 - r) * percent / 100
+    g = g + (1 - g) * percent / 100
+    b = b + (1 - b) * percent / 100
+    return Color3.new(r, g, b)
+end
+
+-- Function to darken a color
+function Library:darken(color, percent)
+    local r, g, b = color.R, color.G, color.B
+    r = r * (1 - percent / 100)
+    g = g * (1 - percent / 100)
+    b = b * (1 - percent / 100)
+    return Color3.new(r, g, b)
+end
+
+-- Function to create a gradient background
+function Library:create_gradient(element, color1, color2)
+    local gradient = Instance.new("UIGradient")
+    gradient.Color = ColorSequence.new(color1, color2)
+    gradient.Parent = element
+end
+
+-- Example usage of gradient
+local exampleFrame = Instance.new("Frame")
+exampleFrame.Size = UDim2.new(0, 200, 0, 100)
+exampleFrame.Position = UDim2.new(0.5, -100, 0.5, -50)
+exampleFrame.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("ScreenGui")
+Library:create_gradient(exampleFrame, Color3.fromRGB(255, 0, 0), Color3.fromRGB(0, 0, 255))
+
+return Library
+
 
 -- Example usage
 Library:SwitchTheme("Aqua")
