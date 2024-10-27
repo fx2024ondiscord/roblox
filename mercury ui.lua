@@ -100,7 +100,7 @@ local Library = {
         StrongText = {},
         WeakText = {}
     },
-    WelcomeText = "Welcome to the Fx Scripts",
+  WelcomeText = "Welcome to the Fx Scripts",
     DisplayName = "Fx",
     DragSpeed = 0.06,
     LockDragging = true,
@@ -108,7 +108,7 @@ local Library = {
     UrlLabel = "Visit our GitHub",
     Url = "https://github.com/deeeity/mercury-lib",
     CurrentTheme = "Dark",
-    }
+}
 Library.__index = Library
 
 local selectedTab
@@ -130,7 +130,7 @@ end
 function Library:change_theme(toTheme)
 	Library.CurrentTheme = toTheme
 	local c = self:lighten(toTheme.Tertiary, 20)
-	Library.DisplayName.Text = "Welcome, <font color='rgb(" ..  math.floor(c.R*255) .. "," .. math.floor(c.G*255) .. "," .. math.floor(c.B*255) .. ")'> <b>" .. LocalPlayer.DisplayName .. "</b> </font>"
+	Library.DisplayName.Text = "⚽️🏟Welcome to Fx Scripts🏟⚽️, <font color='rgb(" ..  math.floor(c.R*255) .. "," .. math.floor(c.G*255) .. "," .. math.floor(c.B*255) .. ")'> <b>" .. LocalPlayer.DisplayName .. "</b> </font>"
 	for color, objects in next, Library.ThemeObjects do
 		local themeColor = Library.CurrentTheme[color]
 		for _, obj in next, objects do
