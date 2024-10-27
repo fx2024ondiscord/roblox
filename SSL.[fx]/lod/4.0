@@ -774,5 +774,5 @@ end
 
 
 else
-    showNotification("Wait for Update")
+    showNotification("Wait for updates..")
 end
