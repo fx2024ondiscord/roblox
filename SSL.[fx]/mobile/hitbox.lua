@@ -1,3 +1,5 @@
+ --doesn't work just for tesitng 
+
 local player = game.Players.LocalPlayer
 local camera = game.Workspace.CurrentCamera
 local hitboxSize = Vector3.new(60, 60, 150)
