@@ -196,7 +196,7 @@ function Library:CreateWindow(config)
 
         table.insert(Window.Tabs, Tab)
 
-        function Tab:CreateButton(name, tooltip, callback)
+        function Tab:CreateButton(name, callback)
             local Button = Instance.new("TextButton")
             Button.Name = name
             Button.Parent = TabContent
@@ -225,25 +225,6 @@ function Library:CreateWindow(config)
 
             Button.MouseLeave:Connect(function()
                 TweenService:Create(Button, TweenInfo.new(0.2), {BackgroundColor3 = Library.Theme.Main}):Play()
-            end)
-
-            Button.MouseMoved:Connect(function(x, y)
-                local tooltipFrame = Instance.new("Frame")
-                tooltipFrame.Size = UDim2.new(0, 100, 0, 30)
-                tooltipFrame.Position = UDim2.new(0, x + 10, 0, y + 10)
-                tooltipFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-                tooltipFrame.Parent = ScreenGui
-
-                local tooltipLabel = Instance.new("TextLabel")
-                tooltipLabel.Size = UDim2.new(1, 0, 1, 0)
-                tooltipLabel.Text = tooltip
-                tooltipLabel.BackgroundTransparency = 1
-                tooltipLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-                tooltipLabel.Parent = tooltipFrame
-
-                Button.MouseLeave:Connect(function()
-                    tooltipFrame:Destroy()
-                end)
             end)
         end
 
