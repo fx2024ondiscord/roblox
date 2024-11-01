@@ -1,0 +1,211 @@
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+
+local Library = {}
+
+function Library:CreateWindow(name)
+    local ScreenGui = Instance.new("ScreenGui")
+    local Main = Instance.new("Frame")
+    local UICorner = Instance.new("UICorner")
+    local Title = Instance.new("TextLabel")
+    local TabHolder = Instance.new("Frame")
+    local TabContainer = Instance.new("ScrollingFrame")
+    local TabList = Instance.new("UIListLayout")
+    local ContentContainer = Instance.new("Frame"
+    local CreditFrame = Instance.new("Frame")
+    local CreditLabel = Instance.new("TextLabel")
+    
+    ScreenGui.Name = "SexyUI"
+    ScreenGui.Parent = game.CoreGui
+    
+    Main.Name = "Main"
+    Main.Parent = ScreenGui
+    Main.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    Main.Position = UDim2.new(0.5, -250, 0.5, -150)
+    Main.Size = UDim2.new(0, 500, 0, 350) -- Increased height for credit section
+    
+    UICorner.CornerRadius = UDim.new(0, 8)
+    UICorner.Parent = Main
+    
+    Title.Name = "Title"
+    Title.Parent = Main
+    Title.BackgroundTransparency = 1
+    Title.Position = UDim2.new(0, 10, 0, 0)
+    Title.Size = UDim2.new(1, -20, 0, 30)
+    Title.Font = Enum.Font.GothamBold
+    Title.Text = name
+    Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Title.TextSize = 14
+    
+    TabHolder.Name = "TabHolder"
+    TabHolder.Parent = Main
+    TabHolder.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    TabHolder.Position = UDim2.new(0, 5, 0, 35)
+    TabHolder.Size = UDim2.new(0.3, -10, 1, -40)
+    
+    TabContainer.Name = "TabContainer"
+    TabContainer.Parent = TabHolder
+    TabContainer.BackgroundTransparency = 1
+    TabContainer.Size = UDim2.new(1, 0, 1, 0)
+    TabContainer.ScrollBarThickness = 2
+    
+    TabList.Parent = TabContainer
+    TabList.SortOrder = Enum.SortOrder.LayoutOrder
+    TabList.Padding = UDim.new(0, 5)
+    
+    ContentContainer.Name = "ContentContainer"
+    ContentContainer.Parent = Main
+    ContentContainer.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    ContentContainer.Position = UDim2.new(0.3, 5, 0, 35)
+    ContentContainer.Size = UDim2.new(0.7, -10, 1, -70) -- Adjusted size for credit frame
+    
+    -- Credit Section
+    CreditFrame.Name = "CreditFrame"
+    CreditFrame.Parent = Main
+    CreditFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    CreditFrame.Position = UDim2.new(0, 5, 1, -40)
+    CreditFrame.Size = UDim2.new(0.99, 0, 0, 40)
+    
+    CreditLabel.Name = "CreditLabel"
+    CreditLabel.Parent = CreditFrame
+    CreditLabel.BackgroundTransparency = 1
+    CreditLabel.Size = UDim2.new(1, 0, 1, 0)
+    CreditLabel.Font = Enum.Font.Gotham
+    CreditLabel.Text = "Credits: Fx_2024 on Discord"
+    CreditLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CreditLabel.TextSize = 12
+    CreditLabel.TextXAlignment = Enum.TextXAlignment.Center
+    
+    local dragging
+    local dragInput
+    local dragStart
+    local startPos
+    
+    local function updateDrag(input)
+        local delta = input.Position - dragStart
+        Main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+    
+    Title.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true
+            dragStart = input.Position
+            startPos = Main.Position
+        end
+    end)
+    
+    Title.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement then
+            dragInput = input
+        end
+    end)
+    
+    Title.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = false
+        end
+    end)
+    
+    UserInputService.InputChanged:Connect(function(input)
+        if input == dragInput and dragging then
+            updateDrag(input)
+        end
+    end)
+    
+    local Window = {}
+    
+    function Window:CreateTab(name)
+        local TabButton = Instance.new("TextButton")
+        local TabContent = Instance.new("ScrollingFrame")
+        local ContentList = Instance.new("UIListLayout")
+        
+        TabButton.Name = name
+        TabButton.Parent = TabContainer
+        TabButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+        TabButton.Size = UDim2.new(1, -10, 0, 30)
+        TabButton.Font = Enum.Font.Gotham
+        TabButton.Text = name
+        TabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        TabButton.TextSize = 12
+        
+        TabContent.Name = name.."Content"
+        TabContent.Parent = ContentContainer
+        TabContent.BackgroundTransparency = 1
+        TabContent.Size = UDim2.new(1, 0, 1, 0)
+        TabContent.ScrollBarThickness = 2
+        TabContent.Visible = false
+        
+        ContentList.Parent = TabContent
+        ContentList.SortOrder = Enum.SortOrder.LayoutOrder
+        ContentList.Padding = UDim.new(0, 5)
+        
+        TabButton.MouseButton1Click:Connect(function()
+            for _, content in pairs(ContentContainer:GetChildren()) do
+                content.Visible = false
+            end
+            TabContent.Visible = true
+            
+            for _, tab in pairs(TabContainer:GetChildren()) do
+                if tab:IsA("TextButton") then
+                    TweenService:Create(tab, TweenInfo.new(0.3), {BackgroundColor3 = Color3.fromRGB(40, 40, 40)}):Play()
+                end
+            end
+            TweenService:Create(TabButton, TweenInfo.new(0.3), {BackgroundColor3 = Color3.fromRGB(50, 50, 50)}):Play()
+        end)
+        
+        local Tab = {}
+        
+        function Tab:CreateButton(name, callback)
+            local Button = Instance.new("TextButton")
+            Button.Name = name
+            Button.Parent = TabContent
+            Button.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+            Button.Size = UDim2.new(1, -10, 0, 30)
+            Button.Font = Enum.Font.Gotham
+            Button.Text = name
+            Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+            Button.TextSize = 12
+            
+            Button.MouseButton1Click:Connect(function()
+                TweenService:Create(Button, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(60, 60, 60)}):Play()
+                callback()
+                wait(0.1)
+                TweenService:Create(Button, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(45, 45, 45)}):Play()
+            end)
+        end
+        
+        function Tab:CreateToggle(name, callback)
+            local Toggle = Instance.new("TextButton")
+            local Status = Instance.new("Frame")
+            local enabled = false
+            
+            Toggle.Name = name
+            Toggle.Parent = TabContent
+            Toggle.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+            Toggle.Size = UDim2.new(1, -10, 0, 30)
+            Toggle.Font = Enum.Font.Gotham
+            Toggle.Text = name
+            Toggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+            Toggle.TextSize = 12
+            
+            Status.Name = "Status"
+            Status.Parent = Toggle
+            Status.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+            Status.Position = UDim2.new(0.9, 0, 0.5, -5)
+            Status.Size = UDim2.new(0, 10, 0, 10)
+            
+            Toggle.MouseButton1Click:Connect(function()
+                enabled = not enabled
+                local color = enabled and Color3.fromRGB(50, 255, 50) or Color3.fromRGB(255, 50, 50)
+                TweenService:Create(Status, TweenInfo.new(0.3), {BackgroundColor3 = color}):Play()
+                callback(enabled)
+            end)
+        end
+        
+        return Tab
+    end
+    
+    return Window
+end
+
+return Library
