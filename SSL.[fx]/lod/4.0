@@ -520,7 +520,7 @@ local function teleportToFootball()
         
        
         local args = {
-            [1] = "TackleActivated",
+            [1] = "TackleActivated", --doesn'twork
             [2] = tick()
         }
         ReplicatedStorage.Packages.Knit.Services.ActionService.RF.PerformActionThenGet:InvokeServer(unpack(args))
@@ -529,7 +529,7 @@ local function teleportToFootball()
         wait(0.1)
         humanoid.PlatformStand = false
     else
-        warn("Football not found in Junk folder or player character is not valid.")
+        warn("ball lost")
     end
 end
 
@@ -565,46 +565,7 @@ MainTab:Button{
     Description = "When the ball is in the air press to '5' [useless]"
 }
 
-local forceEnabled = true
-local reachDistance = 10 
-local ballForce = 500 
 
-local function sendNotification(title, text)
-    StarterGui:SetCore("SendNotification", {
-        Title = title,
-        Text = text,
-        Duration = 3
-    })
-end
-local function v0() local v1=0 -0 ;local v2;while true do if (v1==(0 -0)) then v2=Workspace.Junk:FindFirstChild("Football");if (v2 and forceEnabled) then local v3=LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") ;if v3 then local v4=v2:FindFirstChild("Attachment") or Instance.new("Attachment",v2) ;local v5=v2:FindFirstChild("VectorForce") or Instance.new("VectorForce") ;v5.Attachment0=v4;v5.ApplyAtCenterOfMass=true;v5.RelativeTo=Enum.ActuatorRelativeTo.World;v5.Parent=v2;local v11=(v3.Position-v2.Position).Unit;v5.Force=v11 * ballForce * reachDistance ;end else sendNotification("Error","ball lost?");end break;end end end
-
-local function updateReachDistance(value)
-    reachDistance = value
-end
-
-local function toggleForce(state)
-    forceEnabled = state
-    if forceEnabled then
-        sendNotification("Enb", "r")
-    else
-        sendNotification("Dis", "stop")
-    end
-end
-
-
-NoobieTab:Toggle{
-    Name = "Reach(Broken)",
-    Default = forceEnabled,
-    Callback = toggleForce
-}
-
-NoobieTab:Slider{
-    Name = "Reach Distance",
-    Default = reachDistance,
-    Min = 1,
-    Max = 50,
-    Callback = updateReachDistance
-}
 
 local FunTab = GUI:Tab{
     Name = "Fun/Stuffs 😄",
