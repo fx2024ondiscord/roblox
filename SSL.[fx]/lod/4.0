@@ -565,12 +565,112 @@ MainTab:Button{
     Description = "When the ball is in the air press to '5' [useless]"
 }
 
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local CollectionService = game:GetService("CollectionService")
+local LocalPlayer = game:GetService("Players").LocalPlayer
+local UIS = game:GetService("UserInputService")
+
+local FootballModule = {}
+
+function FootballModule:HasFootball(player)
+    local playerCheck = player or LocalPlayer
+    return playerCheck:GetAttribute("HasBall")
+end
+
+function FootballModule:GetPossessedFootball()
+    if LocalPlayer:GetAttribute("HasBall") then
+        for _, ball in CollectionService:GetTagged("Football") do
+            if ball:GetAttribute("Possessor") == LocalPlayer.Name then
+                return ball
+            end
+        end
+    end
+end
+
+function FootballModule:GetNetworkBalls()
+    local balls = {}
+    for _, ball in CollectionService:GetTagged("Football") do
+        if ball:GetAttribute("NetworkOwner") == LocalPlayer.Name then
+            table.insert(balls, ball)
+        end
+    end
+    return balls
+end
+
+local footballInstance = FootballModule
+
+if footballInstance:HasFootball() then
+    local football = footballInstance:GetPossessedFootball()
+    if football then
+        print("Football possessed: " .. football.Name)
+    end
+end
+
+local FootballESP = function(ball)
+    local espPart = Instance.new("BillboardGui")
+    espPart.Parent = ball
+    espPart.Adornee = ball
+    espPart.Size = UDim2.new(0, 200, 0, 50)
+    espPart.StudsOffset = Vector3.new(0, 3, 0)
+    local textLabel = Instance.new("TextLabel")
+    textLabel.Parent = espPart
+    textLabel.Size = UDim2.new(1, 0, 1, 0)
+    textLabel.Text = "Football"
+    textLabel.BackgroundTransparency = 1
+    textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    textLabel.TextScaled = true
+end
+
+for _, ball in CollectionService:GetTagged("Football") do
+    FootballESP(ball)
+end
+
+local Animations = {}
+
+Animations["Kick"] = ReplicatedStorage:WaitForChild("KickAnimation")
+
+local FootballToggle = false
+local function ToggleFootball(state)
+    FootballToggle = state
+end
+
+local function PlayKickAnimation()
+    local football = footballInstance:GetPossessedFootball()
+    if football and Animations["Kick"] then
+        local anim = Instance.new("Animation")
+        anim.AnimationId = "rbxassetid://13753477291"
+        local animTrack = LocalPlayer.Character.Humanoid:LoadAnimation(anim)
+        animTrack:Play()
+    end
+end
+
+UIS.InputBegan:Connect(function(input)
+    if input.KeyCode == Enum.KeyCode.Space then
+        if FootballToggle then
+            PlayKickAnimation()
+        end
+    end
+end)
+
+local Tab = {}  -- Assume this is your library tab
+
+Fun/Stuffs 😄:Toggle{
+    Name = "Toggle Football Kick",
+    StartingState = false,
+    Description = nil,
+    Callback = function(state)
+        ToggleFootball(state)
+    end
+}
+
 
 
 local FunTab = GUI:Tab{
     Name = "Fun/Stuffs 😄",
     Icon = "rbxassetid://18265538921"
 }
+
+
 
 local player = game.Players.LocalPlayer
 local humanoid, animator
