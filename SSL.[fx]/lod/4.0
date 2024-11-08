@@ -654,7 +654,7 @@ end)
 
 local Tab = {}  -- Assume this is your library tab
 
-MainTab:Toggle{
+Main:Toggle{
     Name = "Toggle Football Kick",
     StartingState = false,
     Description = nil,
