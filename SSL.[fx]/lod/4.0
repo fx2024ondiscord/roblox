@@ -532,7 +532,7 @@ spawn(autoRejoin)
 
 local shit = GUI:Tab{
     Name = "[-Game Emotes-]",
-    Icon = "rbxassetid://85425636408426"
+    Icon = "rbxassetid://17027349389"
 }
 
 local player = game.Players.LocalPlayer
