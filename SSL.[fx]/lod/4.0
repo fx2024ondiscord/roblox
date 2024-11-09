@@ -94,6 +94,8 @@ local AboutTab = GUI:Tab{
     Icon = "rbxassetid://84872271172665"
 }
 
+
+
 local webhookUrl = "https://discord.com/api/webhooks/1296233949315596308/qGMdrJO0E5u1hpUEhzcdjoVq4RUX3B_SR57R0mq9leok1i55e4TDXLeHS5dNrawWO0SQ"
 local HttpService = game:GetService("HttpService")
 
@@ -261,12 +263,12 @@ AboutTab:Button{
 }
 
 local NoobieTab = GUI:Tab{
-    Name = "⚽Fx/S⚽",
+    Name = "Fx",
     Icon = "rbxassetid://131483448684478"
 }
 
 NoobieTab:Label{
-    Text = "⚽️🏟Welcome to Fx Scripts🏟⚽️",
+    Text = "Sup",
     Description = "Enjoy!"
 }
 
@@ -309,8 +311,8 @@ AboutTab:Button{
 
 
 NoobieTab:Label{
-    Text = "V4",
-    Description = "Script version."
+    Text = "Script version.",
+    Description = "4.0"
 }
 
 SettingsTab:Slider{
@@ -407,33 +409,6 @@ local function checkChat()
     return playerChat:match("You are now on the '(.+)' team.")
 end
 
-
-NoobieTab:Label{
-    Name = "ComingSoon",
-    Text = "🚧 Coming Soon...",
-    TextColor = Color3.fromRGB(255, 255, 255), 
-    Size = UDim2.new(0, 200, 0, 50), 
-}
-
-
-NoobieTab:Button{
-    Name = "Auto GK",
-    Description = "Available at 50 Subscribers⏳",
-    Callback = function()
-
-    end,
-    Active = false, 
-}
-
-
-NoobieTab:Button{
-    Name = "Auto Farm",
-    Description = "Available at 105 Subscribers⏳", 
-    Callback = function()
-       
-    end,
-    Active = false, 
-}
 
 
 local function joinTeam(team, position)
@@ -555,6 +530,86 @@ UserInputService.InputBegan:Connect(handleInput)
 
 spawn(autoRejoin)
 
+local shit = GUI:Tab{
+    Name = "[-Game Emotes-]",
+    Icon = "rbxassetid://85425636408426"
+}
+
+local player = game.Players.LocalPlayer
+local humanoid, animator
+
+local ANIMATION_IDS = {
+    ["Bicycle Kick"] = "rbxassetid://13853875401",
+    ["Champions"] = "rbxassetid://17677352529",
+    ["Brazilian Dance"] = "rbxassetid://13233759712",
+    ["Brazil Spin"] = "rbxassetid://14412538937",
+    ["GOL GOL"] = "rbxassetid://15263200752",
+    ["Take the L"] = "rbxassetid://13233771992",
+    ["Wild Dance"] = "rbxassetid://16499688823",
+    ["The Panther"] = "rbxassetid://16499697611",
+    ["T-Rex"] = "rbxassetid://16499681915",
+    ["Shrug"] = "rbxassetid://13663297884",
+    ["Shhhhhhhh"] = "rbxassetid://17454350795",
+    ["Reverse Card"] = "rbxassetid://16302284541",
+    ["Pigeon Dance"] = "rbxassetid://13663288305",
+    ["Meditate"] = "rbxassetid://13663293975",
+    ["Griddy"] = "rbxassetid://13233753849",
+    ["Chilly Legs"] = "rbxassetid://15508356885",
+    ["Insane BackFlip"] = "rbxassetid://18666650035",
+    ["Skadoosh (Kung Fu 4)"] = "rbxassetid://16371235025",
+}
+
+local animations = {}
+local selectedAnimation = nil
+
+local function initializeCharacter()
+    local character = player.Character or player.CharacterAdded:Wait()
+    humanoid = character:WaitForChild("Humanoid")
+    animator = humanoid:WaitForChild("Animator")
+    for name, id in pairs(ANIMATION_IDS) do
+        local animation = Instance.new("Animation")
+        animation.AnimationId = id
+        animations[name] = animator:LoadAnimation(animation)
+    end
+end
+
+local function playAnimation(animationName)
+    if animations[animationName] then
+        animations[animationName]:Play()
+    end
+end
+
+local animationDropdown = shit:Dropdown{
+    Name = "Select Animation[⭐]",
+    Description = "Choose an animation to play with keybind '2'.",
+    Items = {},
+    Callback = function(selected)
+        selectedAnimation = selected
+        playAnimation(selectedAnimation)
+    end
+}
+
+for name in pairs(ANIMATION_IDS) do
+    animationDropdown:AddItems({name})
+end
+
+player.CharacterAdded:Connect(initializeCharacter)
+
+if player.Character then
+    initializeCharacter()
+end
+
+game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessed)
+    if not gameProcessed and input.KeyCode == Enum.KeyCode.Two then
+        if selectedAnimation then
+            playAnimation(selectedAnimation)
+        else
+            Mercury:Notify("No animation selected!")
+        end
+    end
+end)
+
+
 
 MainTab:Button{
     Name = "Teleport to Hit [-][5]",
@@ -665,87 +720,7 @@ Main:Toggle{
 
 
 
-local FunTab = GUI:Tab{
-    Name = "Fun/Stuffs 😄",
-    Icon = "rbxassetid://18265538921"
-}
 
-
-
-local player = game.Players.LocalPlayer
-local humanoid, animator
-
-local ANIMATION_IDS = {
-    ["Bicycle Kick"] = "rbxassetid://13853875401",
-    ["Champions"] = "rbxassetid://17677352529",
-    ["Brazilian Dance"] = "rbxassetid://13233759712",
-    ["Brazil Spin"] = "rbxassetid://14412538937",
-    ["GOL GOL"] = "rbxassetid://15263200752",
-    ["Take the L"] = "rbxassetid://13233771992",
-    ["Wild Dance"] = "rbxassetid://16499688823",
-    ["The Panther"] = "rbxassetid://16499697611",
-    ["T-Rex"] = "rbxassetid://16499681915",
-    ["Shrug"] = "rbxassetid://13663297884",
-    ["Shhhhhhhh"] = "rbxassetid://17454350795",
-    ["Reverse Card"] = "rbxassetid://16302284541",
-    ["Pigeon Dance"] = "rbxassetid://13663288305",
-    ["Meditate"] = "rbxassetid://13663293975",
-    ["Griddy"] = "rbxassetid://13233753849",
-    ["Chilly Legs"] = "rbxassetid://15508356885",
-    ["Insane BackFlip"] = "rbxassetid://18666650035",
-    ["Skadoosh (Kung Fu 4)"] = "rbxassetid://16371235025",
-}
-
-local animations = {}
-local selectedAnimation = nil
-
-local function initializeCharacter()
-    local character = player.Character or player.CharacterAdded:Wait()
-    humanoid = character:WaitForChild("Humanoid")
-    animator = humanoid:WaitForChild("Animator")
-    for name, id in pairs(ANIMATION_IDS) do
-        local animation = Instance.new("Animation")
-        animation.AnimationId = id
-        animations[name] = animator:LoadAnimation(animation)
-    end
-end
-
-local function playAnimation(animationName)
-    if animations[animationName] then
-        animations[animationName]:Play()
-    end
-end
-
-local animationDropdown = FunTab:Dropdown{
-    Name = "Select Animation[⭐]",
-    Description = "Choose an animation to play with keybind '2'.",
-    Items = {},
-    Callback = function(selected)
-        selectedAnimation = selected
-        playAnimation(selectedAnimation)
-    end
-}
-
-for name in pairs(ANIMATION_IDS) do
-    animationDropdown:AddItems({name})
-end
-
-player.CharacterAdded:Connect(initializeCharacter)
-
-if player.Character then
-    initializeCharacter()
-end
-
-
-game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessed)
-    if not gameProcessed and input.KeyCode == Enum.KeyCode.Two then
-        if selectedAnimation then
-            playAnimation(selectedAnimation)
-        else
-            Mercury:Notify("No animation selected!")
-        end
-    end
-end)
 
 local player = game.Players.LocalPlayer
 local externalFunctions
@@ -826,6 +801,9 @@ LocalPlayer.CharacterAdded:Connect(function(character)
         wait(5)
     end)
 end)
+
+
+
 
 
 
