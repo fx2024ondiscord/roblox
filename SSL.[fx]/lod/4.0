@@ -186,27 +186,28 @@ MainTab:Button{
 }
 
 MainTab:Button{
-    Name = "Random Teleport in Field[R]",
-    Description = "Teleport within the field.[😄fun😄]",
+    Name = "Auto Score if Near[New]⚽",
+    Description = "Auto score the ball if near the goal! 🔥",
     Callback = function()
-        if isCooldownReady("R..D.Teleport..Field") then
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/fx2024ondiscord/roblox/refs/heads/main/SSL.%5Bfx%5D/RanTeleporation%5BR%5D"))()
-            sendMessageToDiscord("R..D.Teleport..Field activated!")
+        if isCooldownReady("EZ") then
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/fx2024ondiscord/roblox/refs/heads/main/SSL.%5Bfx%5D/auto%20score%7Bno%20keyB%7D"))()
+            sendMessageToDiscord("Working.")
             GUI:Notification{
-                Title = "Notification",
-                Text = "R..D.Teleport..Field has been activated!",
+                Title = "Auto Score if Near[New]⚽",
+                Text = "Ball automatically scored to the opposite team when near. ",
                 Duration = 3
             }
             setCooldown("R..D.Teleport..Field")
         else
             GUI:Notification{
-                Title = "Cooldown Active",
-                Text = "Please wait before using R..D.Teleport..Field again.",
+                Title = "Cooldown Active⏳",
+                Text = "Please wait before using Auto Score again.",
                 Duration = 3
             }
         end
     end
 }
+
 
 MainTab:Button{
     Name = "Bring ball(Y)(Might Break Game!)",
