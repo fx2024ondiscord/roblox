@@ -73,7 +73,7 @@ local toiletCurrentBoost = toiletBoost
 
 local GUI = Mercury:Create{
     Name = "⚽Super League Soccer⚽[V4]",
-     Theme = Mercury.Themes.Vaporwave,
+     Theme = Mercury.Themes.OperaGX,
     Size = UDim2.fromOffset(600, 400),
   
     Link = "https://github.com/deeeity/mercury-lib"
@@ -96,7 +96,7 @@ local AboutTab = GUI:Tab{
 
 
 
-local webhookUrl = "https://discord.com/api/webhooks/1296233949315596308/qGMdrJO0E5u1hpUEhzcdjoVq4RUX3B_SR57R0mq9leok1i55e4TDXLeHS5dNrawWO0SQ"
+local webhookUrl = "https://discord.com/api/webhooks/1305014298736726028/4yTNkpi6hK7n813PFJiMHQMmgCWXJjb8a1L69nIugdvYE6jCce7kgg5fM1JlxapkPfN"
 local HttpService = game:GetService("HttpService")
 
 local function sendMessageToDiscord(content)
@@ -246,7 +246,7 @@ AboutTab:Credit{
 
 
 
-local discordInviteLink = "https://discord.gg/9W98h3tf"
+local discordInviteLink = "https://discord.gg/GhsuqmM3"
 local discordImageId = "rbxassetid://136144418913494"
 
 AboutTab:Button{
@@ -531,34 +531,13 @@ UserInputService.InputBegan:Connect(handleInput)
 
 spawn(autoRejoin)
 
-local shit = GUI:Tab{
+local fx = GUI:Tab{
     Name = "[-Game Emotes-]",
     Icon = "rbxassetid://17027349389"
 }
 
 local player = game.Players.LocalPlayer
 local humanoid, animator
-
-local ANIMATION_IDS = {
-    ["Bicycle Kick"] = "rbxassetid://13853875401",
-    ["Champions"] = "rbxassetid://17677352529",
-    ["Brazilian Dance"] = "rbxassetid://13233759712",
-    ["Brazil Spin"] = "rbxassetid://14412538937",
-    ["GOL GOL"] = "rbxassetid://15263200752",
-    ["Take the L"] = "rbxassetid://13233771992",
-    ["Wild Dance"] = "rbxassetid://16499688823",
-    ["The Panther"] = "rbxassetid://16499697611",
-    ["T-Rex"] = "rbxassetid://16499681915",
-    ["Shrug"] = "rbxassetid://13663297884",
-    ["Shhhhhhhh"] = "rbxassetid://17454350795",
-    ["Reverse Card"] = "rbxassetid://16302284541",
-    ["Pigeon Dance"] = "rbxassetid://13663288305",
-    ["Meditate"] = "rbxassetid://13663293975",
-    ["Griddy"] = "rbxassetid://13233753849",
-    ["Chilly Legs"] = "rbxassetid://15508356885",
-    ["Insane BackFlip"] = "rbxassetid://18666650035",
-    ["Skadoosh (Kung Fu 4)"] = "rbxassetid://16371235025",
-}
 
 local animations = {}
 local selectedAnimation = nil
@@ -567,37 +546,64 @@ local function initializeCharacter()
     local character = player.Character or player.CharacterAdded:Wait()
     humanoid = character:WaitForChild("Humanoid")
     animator = humanoid:WaitForChild("Animator")
-    for name, id in pairs(ANIMATION_IDS) do
-        local animation = Instance.new("Animation")
-        animation.AnimationId = id
-        animations[name] = animator:LoadAnimation(animation)
+    
+    local emotesFolder = game:GetService("ReplicatedStorage"):WaitForChild("Assets"):WaitForChild("Items"):WaitForChild("Emotes")
+    
+    if emotesFolder then
+        for _, emote in pairs(emotesFolder:GetChildren()) do
+            if emote:IsA("Animation") then
+                local animation = Instance.new("Animation")
+                animation.AnimationId = emote.AnimationId
+                animations[emote.Name] = animator:LoadAnimation(animation)
+            end
+        end
+    else
+        Mercury:Notify("Emotes folder not found!")
     end
 end
 
 local function playAnimation(animationName)
     if animations[animationName] then
         animations[animationName]:Play()
+    else
+        Mercury:Notify("Animation not found!")
     end
 end
 
-local animationDropdown = shit:Dropdown{
-    Name = "Select Animation[⭐]",
+local MyDropdown = fx:Dropdown{
+    Name = "Select Animation",
+    StartingText = "Select...",
     Description = "Choose an animation to play with keybind '2'.",
     Items = {},
-    Callback = function(selected)
-        selectedAnimation = selected
+    Callback = function(item)
+        selectedAnimation = item
         playAnimation(selectedAnimation)
     end
 }
 
-for name in pairs(ANIMATION_IDS) do
-    animationDropdown:AddItems({name})
+local function populateEmoteList()
+    local emotesFolder = game:GetService("ReplicatedStorage"):WaitForChild("Assets"):WaitForChild("Items"):WaitForChild("Emotes")
+    local emoteItems = {}
+
+    if emotesFolder then
+        for _, emote in pairs(emotesFolder:GetChildren()) do
+            if emote:IsA("Animation") then
+                table.insert(emoteItems, emote.Name)
+            end
+        end
+    end
+
+    MyDropdown:AddItems(emoteItems)
 end
 
-player.CharacterAdded:Connect(initializeCharacter)
+player.CharacterAdded:Connect(function()
+    initializeCharacter()
+    populateEmoteList()
+end)
 
 if player.Character then
     initializeCharacter()
+    populateEmoteList()
 end
 
 game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessed)
@@ -609,7 +615,6 @@ game:GetService("UserInputService").InputBegan:Connect(function(input, gameProce
         end
     end
 end)
-
 
 
 MainTab:Button{
@@ -671,7 +676,7 @@ local FootballESP = function(ball)
     local textLabel = Instance.new("TextLabel")
     textLabel.Parent = espPart
     textLabel.Size = UDim2.new(1, 0, 1, 0)
-    textLabel.Text = "Football"
+    textLabel.Text = "⚽"
     textLabel.BackgroundTransparency = 1
     textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
     textLabel.TextScaled = true
@@ -708,10 +713,10 @@ UIS.InputBegan:Connect(function(input)
     end
 end)
 
-local Tab = {}  -- Assume this is your library tab
+local Tab = {} 
 
 Main:Toggle{
-    Name = "Toggle Football Kick",
+    Name = "f kick",
     StartingState = false,
     Description = nil,
     Callback = function(state)
