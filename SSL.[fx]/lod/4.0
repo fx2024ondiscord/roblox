@@ -663,7 +663,7 @@ local footballInstance = FootballModule
 if footballInstance:HasFootball() then
     local football = footballInstance:GetPossessedFootball()
     if football then
-        print("Football possessed: " .. football.Name)
+        print("ball is: " .. football.Name)
     end
 end
 
