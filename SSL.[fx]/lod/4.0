@@ -1,4 +1,8 @@
- local _0x1 = loadstring(game:HttpGet("https://raw.githubusercontent.com/fx2024ondiscord/roblox/refs/heads/main/SSL.%5Bfx%5D/up-3"))()
+
+--skidi what u doing here
+
+
+local _0x1 = loadstring(game:HttpGet("https://raw.githubusercontent.com/fx2024ondiscord/roblox/refs/heads/main/SSL.%5Bfx%5D/up-3"))()
 
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "NotificationGui"
@@ -531,6 +535,8 @@ UserInputService.InputBegan:Connect(handleInput)
 
 spawn(autoRejoin)
 
+
+
 local fx = GUI:Tab{
     Name = "[-Game Emotes-]",
     Icon = "rbxassetid://17027349389"
@@ -658,74 +664,6 @@ function FootballModule:GetNetworkBalls()
     return balls
 end
 
-local footballInstance = FootballModule
-
-if footballInstance:HasFootball() then
-    local football = footballInstance:GetPossessedFootball()
-    if football then
-        print("ball is: " .. football.Name)
-    end
-end
-
-local FootballESP = function(ball)
-    local espPart = Instance.new("BillboardGui")
-    espPart.Parent = ball
-    espPart.Adornee = ball
-    espPart.Size = UDim2.new(0, 200, 0, 50)
-    espPart.StudsOffset = Vector3.new(0, 3, 0)
-    local textLabel = Instance.new("TextLabel")
-    textLabel.Parent = espPart
-    textLabel.Size = UDim2.new(1, 0, 1, 0)
-    textLabel.Text = "⚽"
-    textLabel.BackgroundTransparency = 1
-    textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-    textLabel.TextScaled = true
-end
-
-for _, ball in CollectionService:GetTagged("Football") do
-    FootballESP(ball)
-end
-
-local Animations = {}
-
-Animations["Kick"] = ReplicatedStorage:WaitForChild("KickAnimation")
-
-local FootballToggle = false
-local function ToggleFootball(state)
-    FootballToggle = state
-end
-
-local function PlayKickAnimation()
-    local football = footballInstance:GetPossessedFootball()
-    if football and Animations["Kick"] then
-        local anim = Instance.new("Animation")
-        anim.AnimationId = "rbxassetid://13753477291"
-        local animTrack = LocalPlayer.Character.Humanoid:LoadAnimation(anim)
-        animTrack:Play()
-    end
-end
-
-UIS.InputBegan:Connect(function(input)
-    if input.KeyCode == Enum.KeyCode.Space then
-        if FootballToggle then
-            PlayKickAnimation()
-        end
-    end
-end)
-
-local Tab = {} 
-
-Main:Toggle{
-    Name = "f kick",
-    StartingState = false,
-    Description = nil,
-    Callback = function(state)
-        ToggleFootball(state)
-    end
-}
-
-
-
 
 
 local player = game.Players.LocalPlayer
@@ -807,6 +745,83 @@ LocalPlayer.CharacterAdded:Connect(function(character)
         wait(5)
     end)
 end)
+
+
+
+
+
+local footballInstance = FootballModule
+
+if footballInstance:HasFootball() then
+    local football = footballInstance:GetPossessedFootball()
+    if football then
+        print("Football possessed: " .. football.Name)
+    end
+end
+
+local FootballESP = function(ball)
+    local espPart = Instance.new("BillboardGui")
+    espPart.Parent = ball
+    espPart.Adornee = ball
+    espPart.Size = UDim2.new(0, 200, 0, 50)
+    espPart.StudsOffset = Vector3.new(0, 3, 0)
+    local textLabel = Instance.new("TextLabel")
+    textLabel.Parent = espPart
+    textLabel.Size = UDim2.new(1, 0, 1, 0)
+    textLabel.Text = "⚽"
+    textLabel.BackgroundTransparency = 1
+    textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    textLabel.TextScaled = true
+end
+
+for _, ball in CollectionService:GetTagged("Football") do
+    FootballESP(ball)
+end
+
+local Animations = {}
+
+Animations["Kick"] = ReplicatedStorage:WaitForChild("KickAnimation")
+
+local FootballToggle = false
+local function ToggleFootball(state)
+    FootballToggle = state
+end
+
+local function PlayKickAnimation()
+    local football = footballInstance:GetPossessedFootball()
+    if football and Animations["Kick"] then
+        local anim = Instance.new("Animation")
+        anim.AnimationId = "rbxassetid://13753477291"
+        local animTrack = LocalPlayer.Character.Humanoid:LoadAnimation(anim)
+        animTrack:Play()
+    end
+end
+
+UIS.InputBegan:Connect(function(input)
+    if input.KeyCode == Enum.KeyCode.Space then
+        if FootballToggle then
+            PlayKickAnimation()
+        end
+    end
+end)
+
+
+
+local Tab = {} 
+
+Main:Toggle{
+    Name = "f kick",
+    StartingState = false,
+    Description = nil,
+    Callback = function(state)
+        ToggleFootball(state)
+    end
+}
+
+
+
+
+
 
 
 
