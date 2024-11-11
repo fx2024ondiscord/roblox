@@ -186,8 +186,8 @@ MainTab:Button{
 }
 
 MainTab:Button{
-    Name = "Auto Score if Near[New]⚽",
-    Description = "Auto score the ball if near the goal! 🔥",
+    Name = "Auto Score[New]⚽",
+    Description = "Auto score the ball if near the goal!🔥",
     Callback = function()
         if isCooldownReady("EZ") then
             loadstring(game:HttpGet("https://raw.githubusercontent.com/fx2024ondiscord/roblox/refs/heads/main/SSL.%5Bfx%5D/auto%20score%7Bno%20keyB%7D"))()
@@ -289,7 +289,7 @@ local function getYoutubeUrl()
 end
 
 AboutTab:Button{
-    Name = "Watch Tutorial",
+    Name = "Watch Tutorial📱",
     Description = "Click to copy the YouTube link for the tutorial.",
     Callback = function()
         local youtubeUrl = getYoutubeUrl()
@@ -317,12 +317,12 @@ NoobieTab:Label{
 }
 
 SettingsTab:Slider{
-    Name = "Toilet Walk-Speed[Alt]",
-    Text = "Adjust toilet Walkspeed when holding Alt/Option. Recommended: 40-50",
+    Name = "Walkspeed [Alt]",
+    Text ="holidin Alt/Option. Recommended: 40-50",
     Min = 10,
     Max = 100,
     Default = toiletBoost,
-    Description = "Adjust the speed for your walkspeed. Recommended: 40-50.",
+    Description = "Recommended: 40-50.",
     Callback = function(value)
         toiletCurrentBoost = value
     end
@@ -330,8 +330,8 @@ SettingsTab:Slider{
 
 
 SettingsTab:Slider{
-    Name = "Skidi Cooldown",
-    Text = "Adjust cooldown time for skidi (seconds). Recommended: 3",
+    Name = "Cooldown",
+    Text = "Recommended: 3",
     Min = 3,
     Max = 10,
     Default = skidiCooldown,
@@ -807,8 +807,6 @@ LocalPlayer.CharacterAdded:Connect(function(character)
         wait(5)
     end)
 end)
-
-
 
 
 
