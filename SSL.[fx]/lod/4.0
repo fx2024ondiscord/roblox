@@ -473,8 +473,8 @@ local fx = GUI:Tab{
 }
 
 fx:Button{
-    Name = "Walkspeed(Cframe) [🎉]", 
-    Description = "Press C and then Stop and then press C so you don't get kicked.",
+    Name = "Walkspeed [Key:Control]", 
+    Description = "Press Control and then Stop and then press Control so you don't get kicked.",
     Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/fx2024ondiscord/roblox/refs/heads/main/SSL.%5Bfx%5D/CframeWalkkpeeed-pre.lua", true))()
     end
