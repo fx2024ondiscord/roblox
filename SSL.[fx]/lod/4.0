@@ -65,15 +65,9 @@ local fxPlayer = game:GetService("Players").LocalPlayer
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 local Teams = game:GetService("Teams")
-local skidiInput = game:GetService("UserInputService")
 local UserInputService = game:GetService("UserInputService")
 
-local skidiSpeed = 16
-local toiletBoost = 43
-local toiletBurstTime = 0.3
-local skidiCooldown = 3
-local skidiReady = true
-local toiletCurrentBoost = toiletBoost
+
 
 local GUI = Mercury:Create{
     Name = "⚽Super League Soccer⚽[V4]",
@@ -90,7 +84,7 @@ local MainTab = GUI:Tab{
 
 local SettingsTab = GUI:Tab{
     Name = "12345",
-    Icon = "rbxassetid://85425636408426"
+  Icon = "rbxassetid://125543752807259"
 }
 
 local AboutTab = GUI:Tab{
@@ -121,7 +115,7 @@ local function setCooldown(buttonName)
 end
 
 MainTab:Button{
-    Name = "🚀 AutoGoal🚀 [G]",
+    Name = "⚽Auto Gaol⚽[G]",
     Description = "Automatically aims for the goal.",
     Callback = function()
         if isCooldownReady("AutoGoal[G]") then
@@ -144,7 +138,7 @@ MainTab:Button{
 }
 
 MainTab:Button{
-    Name = "BringBall[F]",
+    Name = "BringBall🚀[F]",
     Description = "Brings the ball to you.",
     Callback = function()
         if isCooldownReady("BringBall[F]") then
@@ -165,7 +159,7 @@ MainTab:Button{
         end
     end
 }
-
+  -- all notfications dislbe;wqdqwdwq d13
 MainTab:Button{
     Name = "Hitbox",
     Description = "Enables a hitbox for players.",
@@ -182,7 +176,7 @@ MainTab:Button{
         else
             GUI:Notification{
                 Title = "Cooldown Active",
-                Text = "Please wait before using Hitbox again.",
+                Text = "Please wait before using Hitbox again.",    --doesn't work /disbled
                 Duration = 3
             }
         end
@@ -235,7 +229,6 @@ MainTab:Button{
         end
     end
 }
-
 
 
 
@@ -320,67 +313,10 @@ NoobieTab:Label{
     Description = "4.0"
 }
 
-SettingsTab:Slider{
-    Name = "Walkspeed [Alt]",
-    Text ="holidin Alt/Option. Recommended: 40-50",
-    Min = 10,
-    Max = 100,
-    Default = toiletBoost,
-    Description = "Recommended: 40-50.",
-    Callback = function(value)
-        toiletCurrentBoost = value
-    end
+NoobieTab:Label{
+    Text = "🎉🎉Join Discord For Giveways🎉🎉",
+    Description = "thank you!"
 }
-
-
-SettingsTab:Slider{
-    Name = "Cooldown",
-    Text = "Recommended: 3",
-    Min = 3,
-    Max = 10,
-    Default = skidiCooldown,
-    Description = "Adjust the cooldown duration for skidi speed. Recommended: 3 seconds.",
-    Callback = function(value)
-        skidiCooldown = value
-    end
-}
-
-
-local function skidiBoost()
-    if skidiReady and fxPlayer.Character then
-        skidiReady = false
-        local humanoid = fxPlayer.Character:FindFirstChild("Humanoid")
-        if humanoid then
-            local fxSpeed = humanoid.WalkSpeed
-            humanoid.WalkSpeed = fxSpeed + toiletCurrentBoost
-            
-            task.delay(toiletBurstTime, function()
-                humanoid.WalkSpeed = fxSpeed
-            end)
-            
-            task.delay(skidiCooldown, function()
-                skidiReady = true
-            end)
-        end
-    end
-end
-
-skidiInput.InputBegan:Connect(function(input, gameProcessed)
-    if not gameProcessed and (input.KeyCode == Enum.KeyCode.LeftAlt or input.KeyCode == Enum.KeyCode.RightAlt) then
-        skidiBoost()
-    end
-end)
-
-
-fxPlayer.CharacterAdded:Connect(function(character)
-    local humanoid = character:WaitForChild("Humanoid")
-    humanoid.Died:Connect(function()
-        task.wait(5)
-        humanoid.WalkSpeed = skidiSpeed
-        skidiReady = true
-    end)
-end)
-
 
 
 NoobieTab:Button{
@@ -406,13 +342,7 @@ local function joinTeam(team, position)
     ReplicatedStorage.__GamemodeComm.RE._RequestJoin:FireServer(unpack(args))
 end
 
--- Function to check for chat messages
-local function checkChat()
-    local player = Players.LocalPlayer
-    local playerChat = player.PlayerGui.Chat.Frame.ChatBarParentFrame.ChatBar.Text
 
-    return playerChat:match("You are now on the '(.+)' team.")
-end
 
 
 
@@ -538,9 +468,27 @@ spawn(autoRejoin)
 
 
 local fx = GUI:Tab{
-    Name = "[-Game Emotes-]",
+    Name = "[B2]",
     Icon = "rbxassetid://17027349389"
 }
+
+fx:Button{
+    Name = "Walkspeed(Cframe) [🎉]", 
+    Description = "Press C and then Stop and then press C so you don't get kicked.",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/fx2024ondiscord/roblox/refs/heads/main/SSL.%5Bfx%5D/CframeWalkkpeeed-pre.lua", true))()
+    end
+}
+
+
+fx:Button{
+    Name = "Auto GK [Beta✨]", 
+    Description = "This is the beta version of auto GK...it works but kind bad..",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/fx2024ondiscord/roblox/refs/heads/main/SSL.%5Bfx%5D/lod/Auto%20Gk%20%5BBeta%5D", true))()
+    end
+}
+
 
 local player = game.Players.LocalPlayer
 local humanoid, animator
@@ -572,7 +520,7 @@ local function playAnimation(animationName)
     if animations[animationName] then
         animations[animationName]:Play()
     else
-        Mercury:Notify("Animation not found!")
+        Mercury:Notify("An.3 Not found")
     end
 end
 
@@ -755,7 +703,7 @@ local footballInstance = FootballModule
 if footballInstance:HasFootball() then
     local football = footballInstance:GetPossessedFootball()
     if football then
-        print("Football possessed: " .. football.Name)
+        print("Football i.S " .. football.Name)
     end
 end
 
@@ -777,8 +725,8 @@ end
 for _, ball in CollectionService:GetTagged("Football") do
     FootballESP(ball)
 end
-
-local Animations = {}
+--  
+--[[local Animations = {}
 
 Animations["Kick"] = ReplicatedStorage:WaitForChild("KickAnimation")
 
@@ -804,27 +752,7 @@ UIS.InputBegan:Connect(function(input)
         end
     end
 end)
-
-
-
-local Tab = {} 
-
-Main:Toggle{
-    Name = "f kick",
-    StartingState = false,
-    Description = nil,
-    Callback = function(state)
-        ToggleFootball(state)
-    end
-}
-
-
-
-
-
-
-
-
+]]
 
 else
    
