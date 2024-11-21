@@ -1,0 +1,131 @@
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+
+local Window = Fluent:CreateWindow({
+    Title = "Sendo Hub",
+    SubTitle = "by Sendo",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Acrylic = true,
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.LeftControl
+})
+
+local Tabs = {
+    KeySystem = Window:AddTab({ Title = "Key System", Icon = "key" }),
+}
+
+local Options = Fluent.Options
+
+loadstring([[
+	function LPH_NO_VIRTUALIZE(f) return f end;
+	function LPH_JIT(f) return f end;
+	function LPH_JIT_MAX(f) return f end;
+]])();
+
+local ServiceIdentifier = "sendohub"
+local ServiceName = "Sendo Hub"
+local APIToken = "API_TOKEN"
+local KeyPrefix = "sendo"
+
+local PandaAuth = loadstring(game:HttpGet("https://raw.githubusercontent.com/Panda-Repositories/PandaKS_Libraries/main/library/LuaLib/ROBLOX/VAL", true))()
+
+local VALVersion = "1.1.1"
+
+if PandaAuth.Version ~= VALVersion then
+    warn(("[VAL] Script's VAL use version %s not matching with VAL's version %s."):format(VALVersion, PandaAuth.Version))
+end
+
+local Internal = {
+    Service = ServiceIdentifier,
+    APIToken = APIToken,
+    VigenereKey = tostring({}),
+    TrueEndpoint = tostring({}),
+    FalseEndpoint = tostring({}),
+    KickWebhook = nil,
+    ValidWebhook = nil,
+    InvalidWebhook = nil,
+    Debug = false
+}
+
+PandaAuth:SetInternal(Internal)
+
+local SendoKey = {}
+
+local KeyInput = Tabs.KeySystem:AddInput("KeyInput", {
+    Title = "Input Key",
+    Default = "",
+    Placeholder = "Enter your key here",
+    Numeric = false,
+    Finished = false,
+    Callback = function(Value)
+        SendoKey["Input Key"] = Value
+    end
+})
+
+Tabs.KeySystem:AddButton({
+    Title = "Submit Key",
+    Description = "Validate your key",
+    Callback = function()
+        local result = PandaAuth:ValidateKey(SendoKey["Input Key"])
+        
+        if result and result["KEY"] then
+            Fluent:Notify({
+                Title = "Sendo Hub",
+                Content = "Key valid",
+                Duration = 3
+            })
+            task.wait(1)
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Robloxblast/yum/refs/heads/main/bas"))()
+        else
+            Fluent:Notify({
+                Title = "Sendo Hub",
+                Content = "Key invalid",
+                Duration = 3
+            })
+        end
+    end
+})
+
+Tabs.KeySystem:AddButton({
+    Title = "Get Key",
+    Description = "Copy key link to clipboard",
+    Callback = function()
+        local Succ, KeyLink = pcall(PandaAuth.GetKey, PandaAuth)
+
+        if Succ then
+            setclipboard(KeyLink)
+            Fluent:Notify({
+                Title = "Sendo Hub",
+                Content = "Copied Key Link to clipboard",
+                Duration = 3
+            })
+        else
+            Fluent:Notify({
+                Title = "Sendo Hub",
+                Content = "Failed to get key link",
+                Duration = 3
+            })
+        end
+    end
+})
+
+SaveManager:SetLibrary(Fluent)
+InterfaceManager:SetLibrary(Fluent)
+
+SaveManager:IgnoreThemeSettings()
+SaveManager:SetIgnoreIndexes({})
+SaveManager:SetFolder("SendoHub")
+
+InterfaceManager:SetFolder("SendoHub")
+
+Window:SelectTab(1)
+
+Fluent:Notify({
+    Title = "Sendo Hub",
+    Content = "The UI has been loaded.",
+    Duration = 3
+})
+
+SaveManager:LoadAutoloadConfig()
