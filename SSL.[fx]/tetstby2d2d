@@ -1,8 +1,0 @@
-return {
-    active = true,
-    version = "1.0",
-    message = "Script is running smoothly 💕",
-    blacklisted = {
-     
-    }
-}
